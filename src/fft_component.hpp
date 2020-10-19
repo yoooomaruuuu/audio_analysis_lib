@@ -10,21 +10,21 @@ extern "C"
 namespace audio_analysis_lib
 {
 	//ëOï˚êÈåæ
-	class FFTComponentImpl;
+	class fft_component_impl;
 
-	class FFTComponent
+	class fft_component
 	{
 	public:
-		DLLEXPORT FFTComponent(int fftSize);
+		DLLEXPORT fft_component(int fftSize);
 
 		DLLEXPORT int fft(const float* input_re, const float* input_im, float* output_re, float* output_im, bool ifftOn);
 
-		DLLEXPORT int getFFTSize();
+		DLLEXPORT int get_fft_size();
 
-		DLLEXPORT ~FFTComponent();
+		DLLEXPORT ~fft_component();
 
 	private:
-		std::unique_ptr<FFTComponentImpl> pImpl;
+		std::unique_ptr<fft_component_impl> pImpl;
 	};
 
 }
