@@ -7,17 +7,17 @@ DLLEXPORT fft_component::fft_component(int fftSize)
 
 DLLEXPORT fft_component::~fft_component() {};
 
-DLLEXPORT fft_exception fft_component::fft(const float* input_re, const float* input_im, float* output_re, float* output_im)
+DLLEXPORT fft_component::fft_exception fft_component::fft(const float* input_re, const float* input_im, float* output_re, float* output_im)
 {
 	return pImpl->fft(input_re, input_im, output_re, output_im);
 }
 
-DLLEXPORT fft_exception fft_component::ifft(const float* input_re, const float* input_im, float* output_re, float* output_im)
+DLLEXPORT fft_component::fft_exception fft_component::ifft(const float* input_re, const float* input_im, float* output_re, float* output_im)
 {
 	return pImpl->ifft(input_re, input_im, output_re, output_im);
 }
 
-DLLEXPORT fft_exception fft_component::fft_mode_setting(fft_mode mode)
+DLLEXPORT fft_component::fft_exception fft_component::fft_mode_setting(fft_mode mode)
 {
 	return pImpl->fft_mode_setting(mode);
 }
