@@ -11,13 +11,19 @@ namespace audio_analysis_lib
 {
 	//ëOï˚êÈåæ
 	class fft_component_impl;
+	using fft_mode = fft_component_impl::fft_mode;
+	using fft_exception = fft_component_impl::fft_exception;
 
 	class fft_component
 	{
 	public:
 		DLLEXPORT fft_component(int fftSize);
 
-		DLLEXPORT int fft(const float* input_re, const float* input_im, float* output_re, float* output_im, bool ifftOn);
+		DLLEXPORT fft_exception fft(const float* input_re, const float* input_im, float* output_re, float* output_im);
+
+		DLLEXPORT fft_exception ifft(const float* input_re, const float* input_im, float* output_re, float* output_im);
+
+		DLLEXPORT fft_exception fft_mode_setting(fft_mode mode);
 
 		DLLEXPORT int get_fft_size();
 
