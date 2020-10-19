@@ -30,6 +30,7 @@ fft_component_impl::fft_exception fft_component_impl::fft_mode_setting(fft_mode 
 	{
 		return fft_exception::SETTINNG_ERROR;
 	}
+	m_mode = mode;
 	return fft_exception::SUCCESS;
 }
 
