@@ -30,8 +30,10 @@ int main()
 
 	while(fread(inputRe, sizeof(float), FRAMESIZE, fin) == FRAMESIZE)
 	{
-		fft.fft(inputRe, inputIm, waveAnaRe, waveAnaIm, false);
-		fft.fft(waveAnaRe, waveAnaIm, outputRe, outputIm, true);
+		fft.fft_mode_setting(audio_analysis_lib::fft_component::fft_mode::FFT);
+		fft.fft(inputRe, inputIm, waveAnaRe, waveAnaIm);
+		fft.fft_mode_setting(audio_analysis_lib::fft_component::fft_mode::IFFT);
+		fft.ifft(waveAnaRe, waveAnaIm, outputRe, outputIm);
 
 		for (int i = 0; i < FRAMESIZE; i++)
 		{
