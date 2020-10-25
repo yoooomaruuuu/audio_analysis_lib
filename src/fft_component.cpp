@@ -50,9 +50,9 @@ DLLEXPORT fft_component::fft_exception audio_analysis_lib::fft_mode_setting(fft_
 	return static_cast<fft_component*>(func_object)->fft_mode_setting(mode);
 }
 
-DLLEXPORT int audio_analysis_lib::get_fft_size(void* func_object)
+DLLEXPORT int32_t audio_analysis_lib::get_fft_size(void* func_object)
 {
-	return static_cast<fft_component*>(func_object)->get_fft_size();
+	return static_cast<int32_t>(static_cast<fft_component*>(func_object)->get_fft_size());
 }
 
 DLLEXPORT void audio_analysis_lib::delete_fft_component(void** func_object)
@@ -60,8 +60,8 @@ DLLEXPORT void audio_analysis_lib::delete_fft_component(void** func_object)
 	delete static_cast<fft_component*>(*func_object);
 }
 
-DLLEXPORT size_t audio_analysis_lib::get_fft_component_size()
+DLLEXPORT int32_t audio_analysis_lib::get_fft_component_size()
 {
-	return sizeof(fft_component);
+	return static_cast<int32_t>(sizeof(fft_component));
 }
 
