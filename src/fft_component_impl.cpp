@@ -37,13 +37,13 @@ fft_component_impl::fft_exception fft_component_impl::fft_mode_setting(fft_mode 
 fft_component_impl::fft_exception fft_component_impl::fft(const float* input_re, const float* input_im, float* output_re, float* output_im)
 {
 	if (m_mode != fft_mode::FFT) return fft_exception::MODE_ERROR;
-	fft_(input_re, input_im, output_re, output_im);
+	return fft_(input_re, input_im, output_re, output_im);
 }
 
 fft_component_impl::fft_exception fft_component_impl::ifft(const float* input_re, const float* input_im, float* output_re, float* output_im)
 {
 	if (m_mode != fft_mode::IFFT) return fft_exception::MODE_ERROR;
-	fft_(input_re, input_im, output_re, output_im);
+	return fft_(input_re, input_im, output_re, output_im);
 }
 
 fft_component_impl::fft_exception fft_component_impl::fft_(const float* input_re, const float* input_im, float* output_re, float* output_im)

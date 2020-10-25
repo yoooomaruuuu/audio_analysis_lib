@@ -29,10 +29,10 @@ int fft_component::get_fft_size()
 
 
 //あれ？マーシャリングのダブルポインタ運用ってできたっけ
-DLLEXPORT void audio_analysis_lib::init_fft_component(int init_fft_size, void** func_object)
+DLLEXPORT void audio_analysis_lib::init_fft_component(int init_fft_size, void* func_object)
 {
 	fft_component* tmp = new fft_component(init_fft_size);
-	*func_object = static_cast<void*>(tmp);
+	func_object = static_cast<void*>(tmp);
 }
 
 DLLEXPORT fft_component::fft_exception audio_analysis_lib::fft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object)
@@ -55,9 +55,9 @@ DLLEXPORT int32_t audio_analysis_lib::get_fft_size(void* func_object)
 	return static_cast<int32_t>(static_cast<fft_component*>(func_object)->get_fft_size());
 }
 
-DLLEXPORT void audio_analysis_lib::delete_fft_component(void** func_object)
+DLLEXPORT void audio_analysis_lib::delete_fft_component(void* func_object)
 {
-	delete static_cast<fft_component*>(*func_object);
+	delete static_cast<fft_component*>(func_object);
 }
 
 DLLEXPORT int32_t audio_analysis_lib::get_fft_component_size()
