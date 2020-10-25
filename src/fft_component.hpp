@@ -1,11 +1,10 @@
 #pragma once
 #include <iostream>
 #include "fft_component_impl.hpp"
-#ifdef __cplusplus
-extern "C"
-#endif
 
-#define DLLEXPORT __declspec(dllexport) extern "C"
+#ifdef __cplusplus
+#define DLLEXPORT  extern "C" __declspec(dllexport) 
+#endif
 
 namespace audio_analysis_lib
 {
@@ -34,7 +33,7 @@ namespace audio_analysis_lib
 		std::unique_ptr<fft_component_impl> pImpl;
 	};
 
-	DLLEXPORT void init_fft_component(int init_fft_size, void* func_object);
+	DLLEXPORT void init_fft_component(int init_fft_size, void** func_object);
 
 	DLLEXPORT fft_component::fft_exception fft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
 
@@ -44,6 +43,6 @@ namespace audio_analysis_lib
 
 	DLLEXPORT int get_fft_size(void* func_object);
 
-	DLLEXPORT void delete_fft_component(void* func_object);
+	DLLEXPORT void delete_fft_component(void** func_object);
 }
 

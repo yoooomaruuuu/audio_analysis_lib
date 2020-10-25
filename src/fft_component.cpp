@@ -28,9 +28,34 @@ int fft_component::get_fft_size()
 }
 
 
-//‚ ‚êHƒ}[ƒVƒƒƒŠƒ“ƒO‚Ìƒ_ƒuƒ‹ƒ|ƒCƒ“ƒ^‰^—p‚Á‚Ä‚Å‚«‚½‚Á‚¯
-void init_fft_component(int init_fft_size, void** func_object)
+//ã‚ã‚Œï¼Ÿãƒãƒ¼ã‚·ãƒ£ãƒªãƒ³ã‚°ã®ãƒ€ãƒ–ãƒ«ãƒã‚¤ãƒ³ã‚¿é‹ç”¨ã£ã¦ã§ããŸã£ã‘
+DLLEXPORT void audio_analysis_lib::init_fft_component(int init_fft_size, void** func_object)
 {
 	fft_component* tmp = new fft_component(init_fft_size);
 	*func_object = static_cast<void*>(tmp);
+}
+
+DLLEXPORT fft_component::fft_exception audio_analysis_lib::fft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object)
+{
+	return static_cast<fft_component*>(func_object)->fft(input_re, input_im, output_re, output_im);
+}
+
+DLLEXPORT fft_component::fft_exception audio_analysis_lib::ifft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object)
+{
+	return static_cast<fft_component*>(func_object)->ifft(input_re, input_im, output_re, output_im);
+}
+
+DLLEXPORT fft_component::fft_exception audio_analysis_lib::fft_mode_setting(fft_component::fft_mode mode, void* func_object)
+{
+	return static_cast<fft_component*>(func_object)->fft_mode_setting(mode);
+}
+
+DLLEXPORT int audio_analysis_lib::get_fft_size(void* func_object)
+{
+	return static_cast<fft_component*>(func_object)->get_fft_size();
+}
+
+DLLEXPORT void audio_analysis_lib::delete_fft_component(void** func_object)
+{
+	delete static_cast<fft_component*>(*func_object);
 }
