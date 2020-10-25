@@ -52,14 +52,14 @@ fft_component_impl::fft_exception fft_component_impl::fft_(const float* input_re
 	{
 		for (int i = 0; i < m_fft_size; i++)
 		{
-			m_input[i][0] = input_re[i];
-			m_input[i][1] = input_im[i];
+			m_input[i][0] = static_cast<float>(input_re[i]);
+			m_input[i][1] = static_cast<float>(input_im[i]);
 		}
 		fftw_execute(m_plan);
 		for (int i = 0; i < m_fft_size; i++)
 		{
-			output_re[i] = m_output[i][0];
-			output_re[i] = m_output[i][1];
+			output_re[i] = static_cast<float>(m_output[i][0]);
+			output_re[i] = static_cast<float>(m_output[i][1]);
 		}
 	}
 	catch (std::out_of_range e)
