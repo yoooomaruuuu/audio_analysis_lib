@@ -9,7 +9,7 @@ extern "C"
 
 namespace audio_analysis_lib
 {
-	//‘O•ûéŒ¾
+	//å‰æ–¹å®£è¨€
 	class fft_component_impl;
 
 	class fft_component
