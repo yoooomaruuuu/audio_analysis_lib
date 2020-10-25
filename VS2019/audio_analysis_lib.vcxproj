@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\audio_analysis_lib.h" />
+    <ClInclude Include="..\src\lib_audio_analysis.h" />
     <ClInclude Include="..\src\fft_component.hpp" />
     <ClInclude Include="..\src\fft_component_impl.hpp" />
   </ItemGroup>

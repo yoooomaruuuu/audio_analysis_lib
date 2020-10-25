@@ -2,8 +2,8 @@
 
 using namespace audio_analysis_lib;
 
-fft_component_impl::fft_component_impl(int initFFTSize)
-	:m_fft_size(initFFTSize), 
+fft_component_impl::fft_component_impl(int init_fft_size)
+	:m_fft_size(init_fft_size), 
 	 m_input((fftw_complex*)fftw_malloc(sizeof(fftw_complex) * m_fft_size)),
 	 m_output((fftw_complex*)fftw_malloc(sizeof(fftw_complex) * m_fft_size)),
 	 m_plan(), m_mode(fft_mode::ERROR)

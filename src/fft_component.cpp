@@ -2,8 +2,8 @@
 
 using namespace audio_analysis_lib;
 
-DLLEXPORT fft_component::fft_component(int fftSize)
-	:pImpl(std::make_unique<fft_component_impl>(fftSize)) { }
+DLLEXPORT fft_component::fft_component(int fft_size)
+	:pImpl(std::make_unique<fft_component_impl>(fft_size)) { }
 
 DLLEXPORT fft_component::~fft_component() {};
 

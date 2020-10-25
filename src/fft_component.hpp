@@ -18,7 +18,7 @@ namespace audio_analysis_lib
 		using fft_mode = fft_component_impl::fft_mode;
 		using fft_exception = fft_component_impl::fft_exception;
 
-		DLLEXPORT fft_component(int fftSize);
+		DLLEXPORT fft_component(int fft_size);
 
 		DLLEXPORT fft_exception fft(const float* input_re, const float* input_im, float* output_re, float* output_im);
 
