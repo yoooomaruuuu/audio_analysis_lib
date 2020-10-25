@@ -44,5 +44,7 @@ namespace audio_analysis_lib
 	DLLEXPORT int get_fft_size(void* func_object);
 
 	DLLEXPORT void delete_fft_component(void** func_object);
+
+	DLLEXPORT size_t get_fft_component_size();
 }
 

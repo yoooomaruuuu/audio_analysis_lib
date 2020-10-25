@@ -59,3 +59,9 @@ DLLEXPORT void audio_analysis_lib::delete_fft_component(void** func_object)
 {
 	delete static_cast<fft_component*>(*func_object);
 }
+
+DLLEXPORT size_t audio_analysis_lib::get_fft_component_size()
+{
+	return sizeof(fft_component);
+}
+
