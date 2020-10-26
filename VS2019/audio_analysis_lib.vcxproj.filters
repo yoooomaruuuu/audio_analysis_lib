@@ -21,7 +21,7 @@
     <ClInclude Include="..\src\fft_component_impl.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\audio_analysis_lib.h">
+    <ClInclude Include="..\src\lib_audio_analysis.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

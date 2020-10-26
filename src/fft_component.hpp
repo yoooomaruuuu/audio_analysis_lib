@@ -30,25 +30,25 @@ namespace audio_analysis_lib
 	private:
 		std::unique_ptr<fft_component_impl> pImpl;
 	};
-
-#ifdef __cplusplus  
-	extern "C" {
-#endif
-		DLLEXPORT void __stdcall init_fft_component(int init_fft_size, void* func_object);
-
-		DLLEXPORT fft_component::fft_exception __stdcall fft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
-
-		DLLEXPORT fft_component::fft_exception __stdcall ifft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
-
-		DLLEXPORT fft_component::fft_exception __stdcall fft_mode_setting(fft_component::fft_mode mode, void* func_object);
-
-		DLLEXPORT int32_t __stdcall get_fft_size(void* func_object);
-
-		DLLEXPORT void __stdcall delete_fft_component(void* func_object);
-
-		DLLEXPORT int32_t __stdcall get_fft_component_size();
-#ifdef __cplusplus  
-	}
-#endif
 }
+
+#ifdef __cplusplus  
+extern "C" {
+#endif
+	DLLEXPORT void __stdcall init_fft_component(int init_fft_size, void* func_object);
+
+	DLLEXPORT audio_analysis_lib::fft_component::fft_exception __stdcall mylib_fft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
+
+	DLLEXPORT audio_analysis_lib::fft_component::fft_exception __stdcall mylib_ifft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
+
+	DLLEXPORT audio_analysis_lib::fft_component::fft_exception __stdcall fft_mode_setting(audio_analysis_lib::fft_component::fft_mode mode, void* func_object);
+
+	DLLEXPORT int32_t __stdcall get_fft_size(void* func_object);
+
+	DLLEXPORT void __stdcall delete_fft_component(void* func_object);
+
+	DLLEXPORT int32_t __stdcall get_fft_component_size();
+#ifdef __cplusplus  
+}
+#endif
 
