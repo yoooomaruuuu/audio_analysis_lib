@@ -1,8 +1,7 @@
 #pragma once
 #include <iostream>
 #include "fft_component_impl.hpp"
-
-#define DLLEXPORT __declspec(dllexport) 
+#include "define_macro.hpp"
 
 namespace audio_analysis_lib
 {
@@ -32,23 +31,17 @@ namespace audio_analysis_lib
 	};
 }
 
-#ifdef __cplusplus  
-extern "C" {
-#endif
-	DLLEXPORT void __stdcall init_fft_component(int init_fft_size, void** func_object);
+DLLEXPORT void __stdcall init_fft_component(int init_fft_size, void** func_object);
 
-	DLLEXPORT audio_analysis_lib::fft_component::fft_exception __stdcall mylib_fft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
+DLLEXPORT audio_analysis_lib::fft_component::fft_exception __stdcall mylib_fft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
 
-	DLLEXPORT audio_analysis_lib::fft_component::fft_exception __stdcall mylib_ifft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
+DLLEXPORT audio_analysis_lib::fft_component::fft_exception __stdcall mylib_ifft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
 
-	DLLEXPORT audio_analysis_lib::fft_component::fft_exception __stdcall fft_mode_setting(audio_analysis_lib::fft_component::fft_mode mode, void* func_object);
+DLLEXPORT audio_analysis_lib::fft_component::fft_exception __stdcall fft_mode_setting(audio_analysis_lib::fft_component::fft_mode mode, void* func_object);
 
-	DLLEXPORT int32_t __stdcall get_fft_size(void* func_object);
+DLLEXPORT int32_t __stdcall get_fft_size(void* func_object);
 
-	DLLEXPORT void __stdcall delete_fft_component(void** func_object);
+DLLEXPORT void __stdcall delete_fft_component(void** func_object);
 
-	DLLEXPORT int32_t __stdcall get_fft_component_size();
-#ifdef __cplusplus  
-}
-#endif
+DLLEXPORT int32_t __stdcall get_fft_component_size();
 

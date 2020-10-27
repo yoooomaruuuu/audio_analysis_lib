@@ -19,9 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\define_macro.hpp" />
     <ClInclude Include="..\src\lib_audio_analysis.h" />
     <ClInclude Include="..\src\fft_component.hpp" />
     <ClInclude Include="..\src\fft_component_impl.hpp" />
+    <ClInclude Include="..\src\window_functions.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\fft_component.cpp" />
