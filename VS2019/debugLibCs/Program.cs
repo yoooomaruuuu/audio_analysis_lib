@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace debugLibCs
 {
@@ -25,13 +22,13 @@ namespace debugLibCs
         }
 
         [DllImport("lib_audio_analysis.dll", EntryPoint = "init_fft_component", CallingConvention = CallingConvention.StdCall)]
-        static extern void init_fft_component(int fft_size, IntPtr func_object);
+        static extern void init_fft_component(int fft_size, ref IntPtr func_object);
 
-        [DllImport("lib_audio_analysis.dll", EntryPoint = "fft", CallingConvention = CallingConvention.StdCall)]
-        static extern fft_exception fft(IntPtr input_re, IntPtr input_im, IntPtr output_re, IntPtr output_im, IntPtr func_object);
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "mylib_fft", CallingConvention = CallingConvention.StdCall)]
+        static extern fft_exception mylib_fft(float[] input_re, float[] input_im, float[] output_re, float[] output_im, IntPtr func_object);
 
-        [DllImport("lib_audio_analysis.dll", EntryPoint = "ifft", CallingConvention = CallingConvention.StdCall)]
-        static extern fft_exception ifft(IntPtr input_re, IntPtr input_im, IntPtr output_re, IntPtr output_im, IntPtr func_object);
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "mylib_ifft", CallingConvention = CallingConvention.StdCall)]
+        static extern fft_exception mylib_ifft(float[] input_re, float[] input_im, float[] output_re, float[] output_im, IntPtr func_object);
 
         [DllImport("lib_audio_analysis.dll", EntryPoint = "fft_mode_setting", CallingConvention = CallingConvention.StdCall)]
         static extern fft_exception fft_mode_setting(fft_mode mode, IntPtr func_object);
@@ -40,24 +37,53 @@ namespace debugLibCs
         static extern int get_fft_size(IntPtr func_object);
 
         [DllImport("lib_audio_analysis.dll", EntryPoint = "delete_fft_component", CallingConvention = CallingConvention.StdCall)]
-        static extern void delete_fft_component(IntPtr func_object);
+        static extern void delete_fft_component(ref IntPtr func_object);
 
         static void Main(string[] args)
         {
-            //IntPtr m_input_re;
-            //IntPtr m_input_im;
-            //IntPtr m_output_re;
-            //IntPtr m_output_im;
-            //int m_frame_size;
-
             IntPtr fft_object = new IntPtr();
 
             const int FFT_SIZE = 1024;
-            init_fft_component(FFT_SIZE, fft_object);
+            init_fft_component(FFT_SIZE, ref fft_object);
 
             get_fft_size(fft_object);
 
-            delete_fft_component(fft_object);
+            fft_mode_setting(fft_mode.FFT, fft_object);
+
+            float[] input_re = new float[FFT_SIZE];
+            float[] input_im = new float[FFT_SIZE];
+            float[] output_re = new float[FFT_SIZE];
+            float[] output_im = new float[FFT_SIZE];
+
+            var input_file_name = @"input.pcm";
+            var output_file_name = @"output.pcm";
+            var input_stream = new BinaryReader(new FileStream(input_file_name, FileMode.Open));
+            var output_stream = new BinaryReader(new FileStream(output_file_name, FileMode.OpenOrCreate));
+
+            try
+            {
+                while (true)
+                {
+                    for (int i = 0; i < FFT_SIZE; i++)
+                    {
+                        input_re[i] = input_stream.ReadSingle();
+                    }
+
+                    var res = mylib_fft(input_re, input_im, output_re, output_im, fft_object);
+                    if (output_re[0] != 0) Console.WriteLine(output_re[0]);
+                }
+
+            }
+            catch (EndOfStreamException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                delete_fft_component(ref fft_object);
+                input_stream.Close();
+                output_stream.Close();
+            }
 
         }
     }

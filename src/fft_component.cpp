@@ -29,9 +29,9 @@ int fft_component::get_fft_size()
 
 
 //あれ？マーシャリングのダブルポインタ運用ってできたっけ
-DLLEXPORT void init_fft_component(int init_fft_size, void* func_object)
+DLLEXPORT void init_fft_component(int init_fft_size, void** func_object)
 {
-	func_object = new fft_component(init_fft_size);
+	*func_object = new fft_component(init_fft_size);
 }
 
 DLLEXPORT fft_component::fft_exception mylib_fft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object)
@@ -54,9 +54,9 @@ DLLEXPORT int32_t get_fft_size(void* func_object)
 	return static_cast<int32_t>(static_cast<fft_component*>(func_object)->get_fft_size());
 }
 
-DLLEXPORT void delete_fft_component(void* func_object)
+DLLEXPORT void delete_fft_component(void** func_object)
 {
-	delete static_cast<fft_component*>(func_object);
+	delete static_cast<fft_component*>(*func_object);
 }
 
 DLLEXPORT int32_t get_fft_component_size()

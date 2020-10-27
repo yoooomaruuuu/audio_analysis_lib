@@ -59,7 +59,7 @@ fft_component_impl::fft_exception fft_component_impl::fft_(const float* input_re
 		for (int i = 0; i < m_fft_size; i++)
 		{
 			output_re[i] = static_cast<float>(m_output[i][0]);
-			output_re[i] = static_cast<float>(m_output[i][1]);
+			output_im[i] = static_cast<float>(m_output[i][1]);
 		}
 	}
 	catch (std::out_of_range e)

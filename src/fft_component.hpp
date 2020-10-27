@@ -35,7 +35,7 @@ namespace audio_analysis_lib
 #ifdef __cplusplus  
 extern "C" {
 #endif
-	DLLEXPORT void __stdcall init_fft_component(int init_fft_size, void* func_object);
+	DLLEXPORT void __stdcall init_fft_component(int init_fft_size, void** func_object);
 
 	DLLEXPORT audio_analysis_lib::fft_component::fft_exception __stdcall mylib_fft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
 
@@ -45,7 +45,7 @@ extern "C" {
 
 	DLLEXPORT int32_t __stdcall get_fft_size(void* func_object);
 
-	DLLEXPORT void __stdcall delete_fft_component(void* func_object);
+	DLLEXPORT void __stdcall delete_fft_component(void** func_object);
 
 	DLLEXPORT int32_t __stdcall get_fft_component_size();
 #ifdef __cplusplus  
