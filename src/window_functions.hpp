@@ -1,9 +1,8 @@
 #pragma once
-#include <iostream>
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include "define_macro.hpp"
 
-DLLEXPORT inline float gauss_window(float x)
-{
-	
-}
+DLLEXPORT float hann_window(float x);
+DLLEXPORT float hamming_window(float x);
+

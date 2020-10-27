@@ -1,4 +1,5 @@
 #pragma once
+
 #ifdef __cplusplus  
 #define DLLEXPORT extern "C" __declspec(dllexport) 
 #else

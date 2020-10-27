@@ -39,6 +39,9 @@ namespace debugLibCs
         [DllImport("lib_audio_analysis.dll", EntryPoint = "delete_fft_component", CallingConvention = CallingConvention.StdCall)]
         static extern void delete_fft_component(ref IntPtr func_object);
 
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "hann_window", CallingConvention = CallingConvention.StdCall)]
+        static extern float hann_window(float x);
+
         static void Main(string[] args)
         {
             IntPtr fft_object = new IntPtr();
@@ -66,7 +69,7 @@ namespace debugLibCs
                 {
                     for (int i = 0; i < FFT_SIZE; i++)
                     {
-                        input_re[i] = input_stream.ReadSingle();
+                        input_re[i] = hann_window(input_stream.ReadSingle());
                     }
 
                     var res = mylib_fft(input_re, input_im, output_re, output_im, fft_object);

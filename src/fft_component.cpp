@@ -28,7 +28,6 @@ int fft_component::get_fft_size()
 }
 
 
-//あれ？マーシャリングのダブルポインタ運用ってできたっけ
 DLLEXPORT void init_fft_component(int init_fft_size, void** func_object)
 {
 	*func_object = new fft_component(init_fft_size);
