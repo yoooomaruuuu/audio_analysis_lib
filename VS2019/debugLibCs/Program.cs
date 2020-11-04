@@ -45,18 +45,24 @@ namespace debugLibCs
         static void Main(string[] args)
         {
             IntPtr fft_object = new IntPtr();
+            IntPtr ifft_object = new IntPtr();
 
             const int FFT_SIZE = 1024;
             init_fft_component(FFT_SIZE, ref fft_object);
+            init_fft_component(FFT_SIZE, ref ifft_object);
 
             get_fft_size(fft_object);
+            get_fft_size(ifft_object);
 
             fft_mode_setting(fft_mode.FFT, fft_object);
+            fft_mode_setting(fft_mode.IFFT, ifft_object);
 
             float[] input_re = new float[FFT_SIZE];
             float[] input_im = new float[FFT_SIZE];
             float[] output_re = new float[FFT_SIZE];
             float[] output_im = new float[FFT_SIZE];
+            float[] input2_re = new float[FFT_SIZE];
+            float[] input2_im = new float[FFT_SIZE];
 
             var input_file_name = @"input.pcm";
             var output_file_name = @"output.pcm";
@@ -73,9 +79,17 @@ namespace debugLibCs
                     }
 
                     var res = mylib_fft(input_re, input_im, output_re, output_im, fft_object);
+
+                    for (int i = 0; i < FFT_SIZE; i++)
+                    {
+                        output_re[i] /= FFT_SIZE;
+                        output_im[i] /= FFT_SIZE;
+                    }
+
+                    res = mylib_ifft(output_re, output_im, input2_re, input2_im, ifft_object);
+
                     if (output_re[0] != 0) Console.WriteLine(output_re[0]);
                 }
-
             }
             catch (EndOfStreamException e)
             {
