@@ -5,7 +5,7 @@
 
 int main()
 {	
-	input_capture cap(48000, 2, 16, 16);
+	audio_analysis_lib::input_capture_impl cap(48000, 2, 16, 16);
 	LPCTSTR* list = new LPCTSTR[256];
 	std::ofstream ofs("test.pcm", std::ios::binary);
 
