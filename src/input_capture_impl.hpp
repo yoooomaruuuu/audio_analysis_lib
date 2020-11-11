@@ -6,28 +6,14 @@
 #include <vector>
 #include <map>
 
-#define SAMPLERATE 44100 //Hz
-#define CHANNELS 2 // 1:monoral, 2:stereo
-#define BITSPERSAMPLE 16 // bits per sample
-
 #pragma comment(lib, "dsound.lib")
 #pragma comment(lib, "dxguid.lib")
-
-//int _tmain(int argc, char* argv[])
-
 
 namespace audio_analysis_lib
 {
 	using DEVICE_MAP = std::pair<std::vector<LPGUID>, std::vector<LPCTSTR>>;
 
-	BOOL CALLBACK DSEnumProc(LPGUID lpGUID,  LPCTSTR lpszDesc, LPCTSTR lpszDrvName,  LPVOID lpContext ) 
-	{ 
-		if (lpGUID != NULL) { //  NULL only for "Primary Sound Driver". 
-			((DEVICE_MAP*)lpContext)->first.push_back(lpGUID);
-			((DEVICE_MAP*)lpContext)->second.push_back(lpszDesc);
-		}
-		return TRUE;
-	} 
+	BOOL CALLBACK DSEnumProc(LPGUID lpGUID, LPCTSTR lpszDesc, LPCTSTR lpszDrvName, LPVOID lpContext);
 
 	class input_capture_impl
 	{
@@ -36,13 +22,13 @@ namespace audio_analysis_lib
 
 		void init(int device_index);
 
-		int buf_size();
+		int get_buf_size();
 
 		int get_input_devices_list(LPCTSTR** list);
 
 		HRESULT start();
 
-		int capture_data(char** tmp);
+		HRESULT capture_data(char** tmp);
 
 		HRESULT stop();
 

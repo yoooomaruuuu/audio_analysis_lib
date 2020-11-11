@@ -29,5 +29,18 @@ namespace audio_analysis_lib
 	private:
 		std::unique_ptr<fft_component_impl> pImpl;
 	};
-}
 
+	DLLEXPORT void create_fft_component(int init_fft_size, void** func_object);
+
+	DLLEXPORT fft_component::fft_exception mylib_fft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
+
+	DLLEXPORT fft_component::fft_exception mylib_ifft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
+
+	DLLEXPORT fft_component::fft_exception fft_mode_setting(fft_component::fft_mode mode, void* func_object);
+
+	DLLEXPORT int32_t get_fft_size(void* func_object);
+
+	DLLEXPORT void delete_fft_component(void** func_object);
+
+	DLLEXPORT int32_t get_fft_component_size();
+}

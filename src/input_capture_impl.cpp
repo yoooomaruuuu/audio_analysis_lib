@@ -2,6 +2,15 @@
 
 using namespace audio_analysis_lib;
 
+BOOL audio_analysis_lib::DSEnumProc(LPGUID lpGUID, LPCTSTR lpszDesc, LPCTSTR lpszDrvName, LPVOID lpContext)
+{ 
+	if (lpGUID != NULL) { //  NULL only for "Primary Sound Driver". 
+		((DEVICE_MAP*)lpContext)->first.push_back(lpGUID);
+		((DEVICE_MAP*)lpContext)->second.push_back(lpszDesc);
+	}
+	return TRUE;
+} 
+
 input_capture_impl::input_capture_impl(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms)
 	: m_capture_device(NULL), m_capture_buffer(NULL),
 	  m_wfx({WAVE_FORMAT_PCM, channels, sample_rate, sample_rate*channels*bits_per_sample/8U, channels*bits_per_sample/8U, bits_per_sample, 0}),
@@ -24,7 +33,7 @@ void input_capture_impl::init(int device_index)
 	m_capture_device->CreateCaptureBuffer(&m_buffer_describer,&m_capture_buffer,NULL);
 }
 
-int input_capture_impl::buf_size()
+int input_capture_impl::get_buf_size()
 {
 	return m_wfx.nAvgBytesPerSec * m_wfx.nChannels * m_frame_ms / 1000.0f;
 }
@@ -43,13 +52,13 @@ HRESULT input_capture_impl::start()
 	return m_hr;
 }
 
-int input_capture_impl::capture_data(char** tmp)
+HRESULT input_capture_impl::capture_data(char** tmp)
 {
 	m_capture_buffer->GetCurrentPosition(&m_captured_pos, &m_readable_pos);
 	if  ( m_readable_pos > m_read_buffer_pos ) m_lock_length = m_readable_pos - m_read_buffer_pos;
 	else m_lock_length = m_buffer_describer.dwBufferBytes - m_read_buffer_pos + m_readable_pos;
-	if (m_lock_length < buf_size()) return -1;
-	m_lock_length = buf_size();
+	if (m_lock_length < get_buf_size()) return E_FAIL;
+	m_lock_length = get_buf_size();
 
 	// printf("Lock startRead:%d, readable:%d, locklen:%d, captured:%d\n",
 	//	readBufferPos, readablePos, lockLength, capturedPos);
@@ -59,10 +68,9 @@ int input_capture_impl::capture_data(char** tmp)
 		&m_captured_data, &m_captured_length,
 		&m_wrapped_captured_data, &m_wrapped_captured_length,
 		NULL);
-	if( m_hr != DS_OK ) {
+	if (m_hr != DS_OK) {
 		printf("Lock error:%x\n", m_hr);
-	} else {
-		// printf("buffer read, buf1:%d, buf2:%d\n", capturedLength, wrappedCapturedLength);
+		return m_hr;
 	}
 
 	if (m_captured_data != NULL) {
@@ -81,9 +89,8 @@ int input_capture_impl::capture_data(char** tmp)
 
 	m_hr = m_capture_buffer->Unlock( m_captured_data, m_captured_length,
 		m_wrapped_captured_data, m_wrapped_captured_length);
-	Sleep(16);
 	*tmp = m_copied_buffer;
-	return 0;
+	return DS_OK;
 }
 
 HRESULT input_capture_impl::stop()
@@ -97,3 +104,4 @@ input_capture_impl::~input_capture_impl()
 	free(m_copied_buffer);
 	CoUninitialize();
 }
+
