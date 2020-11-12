@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
 using System.IO;
 
 namespace debugLibCs
@@ -42,6 +44,38 @@ namespace debugLibCs
         [DllImport("lib_audio_analysis.dll", EntryPoint = "hann_window", CallingConvention = CallingConvention.StdCall)]
         static extern float hann_window(float x);
 
+
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "create_input_capture", CallingConvention = CallingConvention.StdCall)]
+        static extern void create_input_capture(UInt32 sample_rate, UInt16 channels, UInt16 bits_per_sample, Int32 frame_ms, ref IntPtr func_object);
+
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "delete_input_capture", CallingConvention = CallingConvention.StdCall)]
+        static extern void delete_input_capture(ref IntPtr func_object);
+
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "get_input_devices_list", CallingConvention = CallingConvention.StdCall)]
+        static extern void get_input_devices_list(int index, StringBuilder tmp, IntPtr func_object);
+
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "get_input_devices_list_size", CallingConvention = CallingConvention.StdCall)]
+        static extern int get_input_devices_list_size(IntPtr func_object);
+
+
+
+
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "init_input_capture", CallingConvention = CallingConvention.StdCall)]
+        static extern void init_input_capture(int device_index, IntPtr func_object);
+
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "get_buf_size", CallingConvention = CallingConvention.StdCall)]
+        static extern int get_buf_size(IntPtr func_object);
+
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "start", CallingConvention = CallingConvention.StdCall)]
+        static extern long start(IntPtr func_object);
+
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "caputre_data", CallingConvention = CallingConvention.StdCall)]
+        static extern long caputre_data(ref IntPtr data, IntPtr func_object);
+
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "stop", CallingConvention = CallingConvention.StdCall)]
+        static extern long stop(IntPtr func_object);
+
+#if false
         static void Main(string[] args)
         {
             IntPtr fft_object = new IntPtr();
@@ -55,7 +89,7 @@ namespace debugLibCs
             get_fft_size(ifft_object);
 
             fft_mode_setting(fft_mode.FFT, fft_object);
-            fft_mode_setting(fft_mode.IFFT, ifft_object);
+            fft_mode_setting(fft_mode.IFFT, ifft_object);list_str
 
             float[] input_re = new float[FFT_SIZE];
             float[] input_im = new float[FFT_SIZE];
@@ -92,7 +126,7 @@ namespace debugLibCs
                 }
             }
             catch (EndOfStreamException e)
-            {
+            {list_str
                 Console.WriteLine(e.Message);
             }
             finally
@@ -103,5 +137,47 @@ namespace debugLibCs
             }
 
         }
+#else
+        static void Main(string[] args)
+        {
+            IntPtr input_cap = new IntPtr();
+            create_input_capture(48000, 2, 16, 16, ref input_cap);
+            var list = new StringBuilder[get_input_devices_list_size(input_cap)];
+            for(int i=0; i<get_input_devices_list_size(input_cap); i++)
+            {
+                list[i] = new StringBuilder(256, 256);
+                get_input_devices_list(i, list[i], input_cap);
+            }
+
+            init_input_capture(0, input_cap);
+            var output_file_name = @"output.pcm";
+            var output_stream = new BinaryWriter(new FileStream(output_file_name, FileMode.Create));
+
+            var data = new byte[get_buf_size(input_cap)];
+            IntPtr data_ptr = new IntPtr();
+            data_ptr = Marshal.AllocCoTaskMem(get_buf_size(input_cap));
+
+            start(input_cap);
+
+            for(int i=0; i<100; i++)
+            {
+                caputre_data(ref data_ptr, input_cap);
+                Marshal.Copy(data_ptr, data, 0, get_buf_size(input_cap));
+                output_stream.Write(data, 0, get_buf_size(input_cap));
+                Thread.Sleep(16);
+            }
+
+            stop(input_cap);
+
+            //IntPtr list_str = Marshal.AllocCoTaskMem(get_input_devices_list_size(input_cap));
+
+            //stringのポインタを渡す形ではなく、配列の各要素を直接書き込む形にする
+            //stringの要素分の配列を作成し、ref stringで渡して内部を弄る感じ？
+
+            output_stream.Close();
+            delete_input_capture(ref input_cap);
+            //Marshal.FreeCoTaskMem(data_ptr);
+       }
+#endif
     }
 }

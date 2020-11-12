@@ -1,25 +1,24 @@
 #include <iostream>
-#include "fft_component.hpp"
-#include "input_capture_impl.hpp"
+#include "lib_audio_analysis.h"
 #include <fstream>
 
 int main()
 {	
-	audio_analysis_lib::input_capture_impl cap(48000, 2, 16, 16);
-	LPCTSTR* list = new LPCTSTR[256];
+	audio_analysis_lib::input_capture cap(48000, 2, 16, 16);
+
 	std::ofstream ofs("test.pcm", std::ios::binary);
 
-	auto size = cap.get_input_devices_list(&list);
+	const LPCTSTR* list = cap.get_input_devices_list();
 	std::cout << list[0] << std::endl;
 
 	cap.init(0);
-	char* tmp = new char[cap.buf_size()];
+	char* tmp = new char[cap.get_buf_size()];
 	std::cout << cap.start() << std::endl;
 	int count = 0;
 	while (true)
 	{
 		int s = cap.capture_data(&tmp);
-		ofs.write(tmp, cap.buf_size());
+		ofs.write(tmp, cap.get_buf_size());
 		count++;
 		if (count == 1000000) break;
 	}

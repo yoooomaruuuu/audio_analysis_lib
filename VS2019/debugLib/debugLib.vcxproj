@@ -92,7 +92,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(ProjectDir)..\..\lib\fftw\libfftw3-3.lib;$(SolutionDir)x64\Release\lib_audio_analysis.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -138,16 +138,22 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(ProjectDir)..\..\lib\fftw\libfftw3-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(ProjectDir)..\..\lib\fftw\libfftw3-3.lib;$(SolutionDir)x64\Release\lib_audio_analysis.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\input_capture.cpp" />
+    <ClCompile Include="..\..\src\input_capture_impl.cpp" />
     <ClCompile Include="debugLib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\audio_analysis_lib.vcxproj">
       <Project>{e52bcaab-6f6e-4dce-b10f-42ab05e062be}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\input_capture.hpp" />
+    <ClInclude Include="..\..\src\input_capture_impl.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

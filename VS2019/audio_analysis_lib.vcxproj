@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\define_macro.hpp" />
+    <ClInclude Include="..\src\input_capture.hpp" />
+    <ClInclude Include="..\src\input_capture_impl.hpp" />
     <ClInclude Include="..\src\lib_audio_analysis.h" />
     <ClInclude Include="..\src\fft_component.hpp" />
     <ClInclude Include="..\src\fft_component_impl.hpp" />
@@ -28,6 +30,8 @@
   <ItemGroup>
     <ClCompile Include="..\src\fft_component.cpp" />
     <ClCompile Include="..\src\fft_component_impl.cpp" />
+    <ClCompile Include="..\src\input_capture.cpp" />
+    <ClCompile Include="..\src\input_capture_impl.cpp" />
     <ClCompile Include="..\src\window_functions.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

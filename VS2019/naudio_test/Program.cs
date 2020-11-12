@@ -47,7 +47,6 @@ namespace naudio_test
         static extern float hann_window(float x);
         static void Main(string[] args)
         {
-            const bool FILEDEBUG = false;
             const int FFTSIZE = 256;
             IntPtr fftfuncs = new IntPtr();
             init_fft_component(FFTSIZE, ref fftfuncs);
@@ -81,8 +80,6 @@ namespace naudio_test
             waveIn.BufferMilliseconds = 16;
             int bufferSize = (int)((waveIn.BufferMilliseconds / 1000.0f) * samplingRate);
 
-            var waveWriter = new WaveFileWriter("tmp.wav", new WaveFormat(48000, 16, 1));
-
             var waveBuffer1ch = new float[bufferSize];
 
             UdpClient udp = new UdpClient();
@@ -90,27 +87,10 @@ namespace naudio_test
             int hostPort = 2222;
             waveIn.DataAvailable += (_, ee) =>
             {
-                if(FILEDEBUG)
-                {
-                    waveWriter.Write(ee.Buffer, 0, ee.BytesRecorded);
-                    waveWriter.Flush();
-                }
-                //for(int i=0; i<ee.BytesRecorded; i+=waveIn.WaveFormat.BlockAlign)
-                //{
-                //    var sample1ch = new byte[] { ee.Buffer[i], ee.Buffer[i + 1]};
-                //    if (FILEDEBUG)
-                //    {
-                //        //waveWriter.Write(sample2ch, 0, 2);
-                //        //waveWriter.Flush();
-                //    }
-                //    waveBuffer1ch[i] = BitConverter.ToInt16(sample1ch, 0);
-                //}
-
                 udp.Send(ee.Buffer, ee.BytesRecorded, hostip, hostPort);
             };
             waveIn.RecordingStopped += (_, __) =>
             {
-                waveWriter.Flush();
             };
 
             waveIn.StartRecording();
@@ -119,10 +99,6 @@ namespace naudio_test
             waveIn?.StopRecording();
             waveIn?.Dispose();
             waveIn = null;
-
-            waveWriter?.Close();
-            waveWriter = null;
-
         }
     }
 }

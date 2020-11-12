@@ -11,7 +11,7 @@
 
 namespace audio_analysis_lib
 {
-	using DEVICE_MAP = std::pair<std::vector<LPGUID>, std::vector<LPCTSTR>>;
+	using DEVICE_MAP = std::pair < std::vector<LPGUID>, std::vector<std::string>> ;
 
 	BOOL CALLBACK DSEnumProc(LPGUID lpGUID, LPCTSTR lpszDesc, LPCTSTR lpszDrvName, LPVOID lpContext);
 
@@ -24,7 +24,9 @@ namespace audio_analysis_lib
 
 		int get_buf_size();
 
-		int get_input_devices_list(LPCTSTR** list);
+		int get_input_devices_list_size();
+
+		std::vector<std::string> get_input_devices_list();
 
 		HRESULT start();
 

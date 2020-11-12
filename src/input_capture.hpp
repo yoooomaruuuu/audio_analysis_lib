@@ -15,7 +15,9 @@ namespace audio_analysis_lib
 
 		int get_buf_size();
 
-		int get_input_devices_list(LPCTSTR** list);
+		int get_input_devices_list_size();
+		
+		std::vector<std::string> get_input_devices_list();
 
 		HRESULT start();
 
@@ -35,7 +37,9 @@ namespace audio_analysis_lib
 
 	DLLEXPORT int get_buf_size(void* func_object);
 
-	DLLEXPORT int get_input_devices_list(LPCTSTR** list, void* func_object);
+	DLLEXPORT int get_input_devices_list_size(void* func_object);
+
+	DLLEXPORT void get_input_devices_list(int index, char* tmp, void* func_object);
 
 	DLLEXPORT HRESULT start(void* func_object);
 	

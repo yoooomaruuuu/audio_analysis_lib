@@ -1,4 +1,5 @@
 #include "input_capture.hpp"
+#include <string.h>
 
 using namespace audio_analysis_lib;
 
@@ -17,9 +18,14 @@ int input_capture::get_buf_size()
 	return ptr->get_buf_size();
 }
 
-int input_capture::get_input_devices_list(LPCTSTR** list)
+int input_capture::get_input_devices_list_size()
 {
-	return ptr->get_input_devices_list(list);
+	return ptr->get_input_devices_list_size();
+}
+
+std::vector<std::string> input_capture::get_input_devices_list()
+{
+	return ptr->get_input_devices_list();
 }
 
 HRESULT input_capture::start()
@@ -52,32 +58,37 @@ DLLEXPORT void audio_analysis_lib::init_input_capture(int device_index, void* fu
 	((input_capture*)func_object)->init(device_index);
 }
 
-DLLEXPORT int get_buf_size(void* func_object)
+DLLEXPORT int audio_analysis_lib::get_buf_size(void* func_object)
 {
 	return ((input_capture*)func_object)->get_buf_size();
 }
 
-DLLEXPORT int get_input_devices_list(LPCTSTR** list, void* func_object)
+DLLEXPORT int audio_analysis_lib::get_input_devices_list_size(void* func_object)
 {
-	return ((input_capture*)func_object)->get_input_devices_list(list);
+	return ((input_capture*)func_object)->get_input_devices_list_size();
 }
 
-DLLEXPORT HRESULT start(void* func_object)
+DLLEXPORT void audio_analysis_lib::get_input_devices_list(int index, char* tmp, void* func_object)
+{
+	strcpy_s(tmp, 256, ((input_capture*)func_object)->get_input_devices_list()[index].c_str());
+}
+
+DLLEXPORT HRESULT audio_analysis_lib::start(void* func_object)
 {
 	return ((input_capture*)func_object)->start();
 }
 
-DLLEXPORT HRESULT caputre_data(char** tmp, void* func_object)
+DLLEXPORT HRESULT audio_analysis_lib::caputre_data(char** tmp, void* func_object)
 {
 	return ((input_capture*)func_object)->capture_data(tmp);
 }
 
-DLLEXPORT HRESULT stop(void* func_object)
+DLLEXPORT HRESULT audio_analysis_lib::stop(void* func_object)
 {
 	return ((input_capture*)func_object)->stop();
 }
 
-DLLEXPORT void delete_input_capture(void** func_object)
+DLLEXPORT void audio_analysis_lib::delete_input_capture(void** func_object)
 {
 	delete ((input_capture*)*func_object);
 }
