@@ -7,7 +7,7 @@ BOOL audio_analysis_lib::DSEnumProc(LPGUID lpGUID, LPCTSTR lpszDesc, LPCTSTR lps
 	if (lpGUID != NULL) { //  NULL only for "Primary Sound Driver". 
 		((DEVICE_MAP*)lpContext)->first.push_back(lpGUID);
 #ifdef UNICODE
-		char test[256] = { 0x00 };
+		char test[devicesDescMaxSize] = { 0x00 };
 		WideCharToMultiByte(CP_ACP, 0, lpszDesc, -1, test, 256, NULL, NULL);
 		((DEVICE_MAP*)lpContext)->second.push_back(std::string(test));
 #else
@@ -17,31 +17,34 @@ BOOL audio_analysis_lib::DSEnumProc(LPGUID lpGUID, LPCTSTR lpszDesc, LPCTSTR lps
 	return TRUE;
 } 
 
-input_capture_impl::input_capture_impl(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms)
+input_capture_impl::input_capture_impl()
 	: m_capture_device(NULL), m_capture_buffer(NULL),
-	  m_wfx({WAVE_FORMAT_PCM, channels, sample_rate, sample_rate*channels*bits_per_sample/8U, channels*bits_per_sample/8U, bits_per_sample, 0}),
-	  m_buffer_describer({sizeof(DSCBUFFERDESC), 0, m_wfx.nAvgBytesPerSec*1, 0, &m_wfx, 0, NULL}),
+	  m_wfx({ WAVE_FORMAT_PCM, 0, 0, 0, 0, 0, 0 }),
+	  m_buffer_describer({}),
 	  m_readable_pos(0), m_captured_pos(0), m_read_buffer_pos(0), m_lock_length(0), m_captured_length(0), m_wrapped_captured_length(0), m_copied_length(0),
-	  m_captured_data(nullptr), m_wrapped_captured_data(nullptr), m_copied_buffer(nullptr), m_hr(S_OK), devices(std::make_pair(0, 0)), m_frame_ms(frame_ms)
+	  m_captured_data(nullptr), m_wrapped_captured_data(nullptr), m_copied_buffer(nullptr), m_hr(S_OK), devices(std::make_pair(0, 0)), m_frame_ms(0)
 {
 	CoInitialize(NULL);
 	DirectSoundCaptureCreate8(NULL, &m_capture_device, NULL );
 	//DEVICE_MAP tmp = (std::make_pair(lp_guid, lp_desc));
-	DirectSoundEnumerate((LPDSENUMCALLBACK)DSEnumProc, (VOID*)&devices);
+	DirectSoundCaptureEnumerate((LPDSENUMCALLBACK)DSEnumProc, (VOID*)&devices);
 }
 
 
-void input_capture_impl::init(int device_index)
+void input_capture_impl::init(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index)
 {
+	m_wfx = { WAVE_FORMAT_PCM, channels, sample_rate, sample_rate * channels * bits_per_sample / 8U, channels * bits_per_sample / 8U, bits_per_sample, 0 };
+	m_frame_ms = frame_ms;
+	m_buffer_describer = { sizeof(DSCBUFFERDESC), 0, m_wfx.nAvgBytesPerSec * 1, 0, &m_wfx, 0, NULL };
 	DirectSoundCaptureCreate8(devices.first[device_index], &m_capture_device, NULL );
 	m_copied_buffer = (char*)malloc(
 		m_wfx.nAvgBytesPerSec * m_wfx.nChannels * m_frame_ms / 1000.0f); 
-	m_capture_device->CreateCaptureBuffer(&m_buffer_describer,&m_capture_buffer,NULL);
+	HRESULT tst = m_capture_device->CreateCaptureBuffer(&m_buffer_describer,&m_capture_buffer,NULL);
 }
 
 int input_capture_impl::get_buf_size()
 {
-	return m_wfx.nAvgBytesPerSec * m_wfx.nChannels * m_frame_ms / 1000.0f;
+	return m_wfx.nAvgBytesPerSec * m_frame_ms / 1000.0f;
 }
 
 int input_capture_impl::get_input_devices_list_size()
@@ -101,6 +104,7 @@ HRESULT input_capture_impl::capture_data(char** tmp)
 	m_hr = m_capture_buffer->Unlock( m_captured_data, m_captured_length,
 		m_wrapped_captured_data, m_wrapped_captured_length);
 	*tmp = m_copied_buffer;
+	//Sleep(m_frame_ms);
 	return DS_OK;
 }
 

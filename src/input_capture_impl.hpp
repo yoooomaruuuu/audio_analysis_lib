@@ -11,6 +11,7 @@
 
 namespace audio_analysis_lib
 {
+	constexpr int devicesDescMaxSize = 256;
 	using DEVICE_MAP = std::pair < std::vector<LPGUID>, std::vector<std::string>> ;
 
 	BOOL CALLBACK DSEnumProc(LPGUID lpGUID, LPCTSTR lpszDesc, LPCTSTR lpszDrvName, LPVOID lpContext);
@@ -18,9 +19,9 @@ namespace audio_analysis_lib
 	class input_capture_impl
 	{
 	public:
-		input_capture_impl(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms);
+		input_capture_impl();
 
-		void init(int device_index);
+		void init(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index);
 
 		int get_buf_size();
 

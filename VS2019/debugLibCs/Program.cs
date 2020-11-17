@@ -45,8 +45,8 @@ namespace debugLibCs
         static extern float hann_window(float x);
 
 
-        [DllImport("lib_audio_analysis.dll", EntryPoint = "create_input_capture", CallingConvention = CallingConvention.StdCall)]
-        static extern void create_input_capture(UInt32 sample_rate, UInt16 channels, UInt16 bits_per_sample, Int32 frame_ms, ref IntPtr func_object);
+                [DllImport("lib_audio_analysis.dll", EntryPoint = "create_input_capture", CallingConvention = CallingConvention.StdCall)]
+        static extern void create_input_capture(ref IntPtr func_object);
 
         [DllImport("lib_audio_analysis.dll", EntryPoint = "delete_input_capture", CallingConvention = CallingConvention.StdCall)]
         static extern void delete_input_capture(ref IntPtr func_object);
@@ -57,11 +57,8 @@ namespace debugLibCs
         [DllImport("lib_audio_analysis.dll", EntryPoint = "get_input_devices_list_size", CallingConvention = CallingConvention.StdCall)]
         static extern int get_input_devices_list_size(IntPtr func_object);
 
-
-
-
         [DllImport("lib_audio_analysis.dll", EntryPoint = "init_input_capture", CallingConvention = CallingConvention.StdCall)]
-        static extern void init_input_capture(int device_index, IntPtr func_object);
+        static extern void init_input_capture(UInt32 sample_rate, UInt16 channels, UInt16 bits_per_sample, Int32 frame_ms, int device_index, IntPtr func_object);
 
         [DllImport("lib_audio_analysis.dll", EntryPoint = "get_buf_size", CallingConvention = CallingConvention.StdCall)]
         static extern int get_buf_size(IntPtr func_object);
@@ -74,6 +71,7 @@ namespace debugLibCs
 
         [DllImport("lib_audio_analysis.dll", EntryPoint = "stop", CallingConvention = CallingConvention.StdCall)]
         static extern long stop(IntPtr func_object);
+
 
 #if false
         static void Main(string[] args)
@@ -141,7 +139,7 @@ namespace debugLibCs
         static void Main(string[] args)
         {
             IntPtr input_cap = new IntPtr();
-            create_input_capture(48000, 2, 16, 16, ref input_cap);
+            create_input_capture(ref input_cap);
             var list = new StringBuilder[get_input_devices_list_size(input_cap)];
             for(int i=0; i<get_input_devices_list_size(input_cap); i++)
             {
@@ -149,7 +147,7 @@ namespace debugLibCs
                 get_input_devices_list(i, list[i], input_cap);
             }
 
-            init_input_capture(0, input_cap);
+            init_input_capture(48000, 2, 16, 16, 0, input_cap);
             var output_file_name = @"output.pcm";
             var output_stream = new BinaryWriter(new FileStream(output_file_name, FileMode.Create));
 
