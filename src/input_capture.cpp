@@ -25,7 +25,7 @@ int input_capture::get_input_devices_list_size()
 	return ptr->get_input_devices_list_size();
 }
 
-std::vector<std::string> input_capture::get_input_devices_list()
+std::vector<std::wstring> input_capture::get_input_devices_list()
 {
 	return ptr->get_input_devices_list();
 }
@@ -70,21 +70,9 @@ DLLEXPORT int audio_analysis_lib::get_input_devices_list_size(void* func_object)
 	return ((input_capture*)func_object)->get_input_devices_list_size();
 }
 
-DLLEXPORT void audio_analysis_lib::get_input_devices_list(int index, char16_t* tmp, void* func_object)
+DLLEXPORT void audio_analysis_lib::get_input_devices_list(int index, wchar_t* tmp, void* func_object)
 {
-	// char buf[devicesDescMaxSize] = { 0x00 };
-	// strcpy_s(buf, devicesDescMaxSize, ((input_capture*)func_object)->get_input_devices_list()[index].c_str());
-	// char16_t* buf16 = new char16_t[devicesDescMaxSize];
-	std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> converter;
-	std::string buf8 = ((input_capture*)func_object)->get_input_devices_list()[index];
-	std::u16string buf = converter.from_bytes(buf8);
-	//unityC#‚ªchar16_t‚µ‚©Žó‚¯“ü‚ê‚È‚»‚¤‚È‚½‚ß•ÏŠ·
-	//‚Ü‚½mbrtoc16‚ª1‚¸‚Â‚µ‚©“®‚©‚È‚©‚Á‚½‚Ì‚Åfor‚Å‰ñ‚·
-	for (int i = 0; i < devicesDescMaxSize; i++)
-	{
-		tmp[i] = buf.c_str()[i];
-	}
-	//delete[] buf16;
+	wcscpy_s(tmp, devicesDescMaxSize, ((input_capture*)func_object)->get_input_devices_list()[index].c_str());
 }
 
 DLLEXPORT HRESULT audio_analysis_lib::start(void* func_object)

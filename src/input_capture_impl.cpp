@@ -7,9 +7,9 @@ BOOL audio_analysis_lib::DSEnumProc(LPGUID lpGUID, LPCTSTR lpszDesc, LPCTSTR lps
 	if (lpGUID != NULL) { //  NULL only for "Primary Sound Driver". 
 		((DEVICE_MAP*)lpContext)->first.push_back(lpGUID);
 #ifdef UNICODE
-		char test[devicesDescMaxSize] = { 0x00 };
-		WideCharToMultiByte(CP_ACP, 0, lpszDesc, -1, test, 256, NULL, NULL);
-		((DEVICE_MAP*)lpContext)->second.push_back(std::string(test));
+		//char test[devicesDescMaxSize] = { 0x00 };
+		//WideCharToMultiByte(CP_ACP, 0, lpszDesc, -1, test, 256, NULL, NULL);
+		((DEVICE_MAP*)lpContext)->second.push_back(std::wstring(lpszDesc));
 #else
 		((DEVICE_MAP*)lpContext)->second.push_back(lpszDesc);
 #endif
@@ -53,7 +53,7 @@ int input_capture_impl::get_input_devices_list_size()
 	return devices.second.size();
 }
 
-std::vector<std::string> input_capture_impl::get_input_devices_list()
+std::vector<std::wstring> input_capture_impl::get_input_devices_list()
 {
 	// サウンドデバイスが複数ある場合に使用
 	return devices.second;
