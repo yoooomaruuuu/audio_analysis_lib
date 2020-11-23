@@ -5,13 +5,6 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_audio_analysis", "audio_analysis_lib.vcxproj", "{E52BCAAB-6F6E-4DCE-B10F-42AB05E062BE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "debugLib", "debugLib\debugLib.vcxproj", "{C6493D88-6C3E-4BE7-A0CF-99C6690AE163}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E52BCAAB-6F6E-4DCE-B10F-42AB05E062BE} = {E52BCAAB-6F6E-4DCE-B10F-42AB05E062BE}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "debugLibCs", "debugLibCs\debugLibCs.csproj", "{ED1DF579-BDDE-4879-9394-6F0C8B165D59}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,28 +25,6 @@ Global
 		{E52BCAAB-6F6E-4DCE-B10F-42AB05E062BE}.Release|x64.Build.0 = Release|x64
 		{E52BCAAB-6F6E-4DCE-B10F-42AB05E062BE}.Release|x86.ActiveCfg = Release|Win32
 		{E52BCAAB-6F6E-4DCE-B10F-42AB05E062BE}.Release|x86.Build.0 = Release|Win32
-		{C6493D88-6C3E-4BE7-A0CF-99C6690AE163}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{C6493D88-6C3E-4BE7-A0CF-99C6690AE163}.Debug|x64.ActiveCfg = Debug|x64
-		{C6493D88-6C3E-4BE7-A0CF-99C6690AE163}.Debug|x64.Build.0 = Debug|x64
-		{C6493D88-6C3E-4BE7-A0CF-99C6690AE163}.Debug|x86.ActiveCfg = Debug|Win32
-		{C6493D88-6C3E-4BE7-A0CF-99C6690AE163}.Debug|x86.Build.0 = Debug|Win32
-		{C6493D88-6C3E-4BE7-A0CF-99C6690AE163}.Release|Any CPU.ActiveCfg = Release|Win32
-		{C6493D88-6C3E-4BE7-A0CF-99C6690AE163}.Release|x64.ActiveCfg = Release|x64
-		{C6493D88-6C3E-4BE7-A0CF-99C6690AE163}.Release|x64.Build.0 = Release|x64
-		{C6493D88-6C3E-4BE7-A0CF-99C6690AE163}.Release|x86.ActiveCfg = Release|Win32
-		{C6493D88-6C3E-4BE7-A0CF-99C6690AE163}.Release|x86.Build.0 = Release|Win32
-		{ED1DF579-BDDE-4879-9394-6F0C8B165D59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED1DF579-BDDE-4879-9394-6F0C8B165D59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED1DF579-BDDE-4879-9394-6F0C8B165D59}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{ED1DF579-BDDE-4879-9394-6F0C8B165D59}.Debug|x64.Build.0 = Debug|Any CPU
-		{ED1DF579-BDDE-4879-9394-6F0C8B165D59}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{ED1DF579-BDDE-4879-9394-6F0C8B165D59}.Debug|x86.Build.0 = Debug|Any CPU
-		{ED1DF579-BDDE-4879-9394-6F0C8B165D59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED1DF579-BDDE-4879-9394-6F0C8B165D59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED1DF579-BDDE-4879-9394-6F0C8B165D59}.Release|x64.ActiveCfg = Release|Any CPU
-		{ED1DF579-BDDE-4879-9394-6F0C8B165D59}.Release|x64.Build.0 = Release|Any CPU
-		{ED1DF579-BDDE-4879-9394-6F0C8B165D59}.Release|x86.ActiveCfg = Release|Any CPU
-		{ED1DF579-BDDE-4879-9394-6F0C8B165D59}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
