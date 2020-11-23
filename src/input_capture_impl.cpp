@@ -7,8 +7,6 @@ BOOL audio_analysis_lib::DSEnumProc(LPGUID lpGUID, LPCTSTR lpszDesc, LPCTSTR lps
 	if (lpGUID != NULL) { //  NULL only for "Primary Sound Driver". 
 		((DEVICE_MAP*)lpContext)->first.push_back(lpGUID);
 #ifdef UNICODE
-		//char test[devicesDescMaxSize] = { 0x00 };
-		//WideCharToMultiByte(CP_ACP, 0, lpszDesc, -1, test, 256, NULL, NULL);
 		((DEVICE_MAP*)lpContext)->second.push_back(std::wstring(lpszDesc));
 #else
 		((DEVICE_MAP*)lpContext)->second.push_back(lpszDesc);
@@ -26,7 +24,6 @@ input_capture_impl::input_capture_impl()
 {
 	CoInitialize(NULL);
 	DirectSoundCaptureCreate8(NULL, &m_capture_device, NULL );
-	//DEVICE_MAP tmp = (std::make_pair(lp_guid, lp_desc));
 	DirectSoundCaptureEnumerate((LPDSENUMCALLBACK)DSEnumProc, (VOID*)&devices);
 }
 
@@ -81,11 +78,10 @@ HRESULT input_capture_impl::capture_data(char** tmp)
 	m_capture_buffer->GetCurrentPosition(&m_captured_pos, &m_readable_pos);
 	if  ( m_readable_pos > m_read_buffer_pos ) m_lock_length = m_readable_pos - m_read_buffer_pos;
 	else m_lock_length = m_buffer_describer.dwBufferBytes - m_read_buffer_pos + m_readable_pos;
+	//取得できたバッファサイズがget_buf_sizeより小さい場合、error
 	if (m_lock_length < get_buf_size()) return E_FAIL;
 	m_lock_length = get_buf_size();
 
-	// printf("Lock startRead:%d, readable:%d, locklen:%d, captured:%d\n",
-	//	readBufferPos, readablePos, lockLength, capturedPos);
 	//キャプチャバッファはringbufferなため、領域が2つに分断されることがある
 	//そのため、wappedCaputreDataも用意して、2つを書き出している
 	m_hr = m_capture_buffer->Lock(m_read_buffer_pos, m_lock_length,
@@ -99,7 +95,6 @@ HRESULT input_capture_impl::capture_data(char** tmp)
 
 	if (m_captured_data != NULL) {
 		memcpy(m_copied_buffer, m_captured_data, m_captured_length);
-		//m_copied_length += m_captured_length;
 		m_read_buffer_pos += m_captured_length;
 		if (m_read_buffer_pos >= m_buffer_describer.dwBufferBytes)
 			m_read_buffer_pos = 0;
@@ -107,14 +102,12 @@ HRESULT input_capture_impl::capture_data(char** tmp)
 
 	if (m_wrapped_captured_data != NULL) { // Ring buffer wrapped
 		memcpy(m_copied_buffer, m_wrapped_captured_data, m_wrapped_captured_length);
-		//m_copied_length += m_wrapped_captured_length;
 		m_read_buffer_pos = m_wrapped_captured_length;
 	}
 
 	m_hr = m_capture_buffer->Unlock( m_captured_data, m_captured_length,
 		m_wrapped_captured_data, m_wrapped_captured_length);
 	*tmp = m_copied_buffer;
-	//Sleep(m_frame_ms);
 	return DS_OK;
 }
 
