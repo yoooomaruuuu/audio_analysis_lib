@@ -11,7 +11,7 @@ namespace audio_analysis_lib
 	public:
 		input_capture();
 
-		void init(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index);
+		HRESULT init(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index);
 
 		int get_buf_size();
 
@@ -33,7 +33,7 @@ namespace audio_analysis_lib
 
 	DLLEXPORT void create_input_capture(void** func_object);
 
-	DLLEXPORT void init_input_capture(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index, void* func_object);
+	DLLEXPORT HRESULT init_input_capture(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index, void* func_object);
 
 	DLLEXPORT int get_buf_size(void* func_object);
 

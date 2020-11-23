@@ -31,15 +31,25 @@ input_capture_impl::input_capture_impl()
 }
 
 
-void input_capture_impl::init(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index)
+HRESULT input_capture_impl::init(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index)
 {
 	m_wfx = { WAVE_FORMAT_PCM, channels, sample_rate, sample_rate * channels * bits_per_sample / 8U, channels * bits_per_sample / 8U, bits_per_sample, 0 };
 	m_frame_ms = frame_ms;
 	m_buffer_describer = { sizeof(DSCBUFFERDESC), 0, m_wfx.nAvgBytesPerSec * 1, 0, &m_wfx, 0, NULL };
-	DirectSoundCaptureCreate8(devices.first[device_index], &m_capture_device, NULL );
+	HRESULT hr = DirectSoundCaptureCreate8(devices.first[device_index], &m_capture_device, NULL );
+	if (hr != DS_OK)
+	{
+		return hr;
+	}
 	m_copied_buffer = (char*)malloc(
 		m_wfx.nAvgBytesPerSec * m_wfx.nChannels * m_frame_ms / 1000.0f); 
-	HRESULT tst = m_capture_device->CreateCaptureBuffer(&m_buffer_describer,&m_capture_buffer,NULL);
+	hr = m_capture_device->CreateCaptureBuffer(&m_buffer_describer,&m_capture_buffer,NULL);
+	if (hr != DS_OK)
+	{
+		free(m_copied_buffer);
+		return hr;
+	}
+	return hr;
 }
 
 int input_capture_impl::get_buf_size()
@@ -62,7 +72,7 @@ std::vector<std::wstring> input_capture_impl::get_input_devices_list()
 HRESULT input_capture_impl::start()
 {
 	m_hr = m_capture_buffer->Start(DSCBSTART_LOOPING);
-	Sleep(1000);
+	Sleep(3000);
 	return m_hr;
 }
 

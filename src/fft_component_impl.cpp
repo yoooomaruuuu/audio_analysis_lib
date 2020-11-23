@@ -4,27 +4,28 @@ using namespace audio_analysis_lib;
 
 fft_component_impl::fft_component_impl(int init_fft_size)
 	:m_fft_size(init_fft_size), 
-	 m_input((fftw_complex*)fftw_malloc(sizeof(fftw_complex) * m_fft_size)),
-	 m_output((fftw_complex*)fftw_malloc(sizeof(fftw_complex) * m_fft_size)),
+	 m_input((fft_complex*)malloc(sizeof(fft_complex) * m_fft_size)),
+	 m_output((fft_complex*)malloc(sizeof(fft_complex) * m_fft_size)),
 	 m_plan(), m_mode(fft_mode::ERROR)
 { 
 } 
 
 fft_component_impl::~fft_component_impl()
 {
-	fftw_free(m_input);
-	fftw_free(m_output);
+	free(m_input);
+	free(m_output);
+	fft_destroy_plan(m_plan);
 }
 
 fft_component_impl::fft_exception fft_component_impl::fft_mode_setting(fft_mode mode)
 {
 	if (mode == fft_mode::FFT)
 	{
-		m_plan = fftw_plan_dft_1d(m_fft_size, m_input, m_output, FFTW_BACKWARD, FFTW_ESTIMATE);
+		m_plan = fft_plan_dft_1d(m_fft_size, m_input, m_output, FFT_BACKWARD, FFT_ESTIMATE);
 	}
 	else if (mode == fft_mode::IFFT)
 	{
-		m_plan = fftw_plan_dft_1d(m_fft_size, m_input, m_output, FFTW_FORWARD, FFTW_ESTIMATE);
+		m_plan = fft_plan_dft_1d(m_fft_size, m_input, m_output, FFT_FORWARD, FFT_ESTIMATE);
 	}
 	else
 	{
@@ -55,7 +56,7 @@ fft_component_impl::fft_exception fft_component_impl::fft_(const float* input_re
 			m_input[i][0] = static_cast<float>(input_re[i]);
 			m_input[i][1] = static_cast<float>(input_im[i]);
 		}
-		fftw_execute(m_plan);
+		fft_execute(m_plan);
 		for (int i = 0; i < m_fft_size; i++)
 		{
 			output_re[i] = static_cast<float>(m_output[i][0]);

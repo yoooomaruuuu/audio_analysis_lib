@@ -4,26 +4,27 @@
 
 int main()
 {	
-	audio_analysis_lib::input_capture cap(48000, 2, 16, 16);
+	audio_analysis_lib::input_capture* cap = new audio_analysis_lib::input_capture();
 
 	std::ofstream ofs("test.pcm", std::ios::binary);
 
-	const LPCTSTR* list = cap.get_input_devices_list();
-	std::cout << list[0] << std::endl;
+	// const LPCTSTR* list = cap.get_input_devices_list();
+	// std::cout << list[0] << std::endl;
 
-	cap.init(0);
-	char* tmp = new char[cap.get_buf_size()];
-	std::cout << cap.start() << std::endl;
+	cap->init(48000, 2, 16, 16,0);
+	char* tmp = new char[cap->get_buf_size()];
+	std::cout << cap->start() << std::endl;
 	int count = 0;
 	while (true)
 	{
-		int s = cap.capture_data(&tmp);
-		ofs.write(tmp, cap.get_buf_size());
+		int s = cap->capture_data(&tmp);
+		ofs.write(tmp, cap->get_buf_size());
 		count++;
-		if (count == 1000000) break;
+		if (count == 100000) break;
 	}
 
-	std::cout << cap.stop() << std::endl;
+	std::cout << cap->stop() << std::endl;
+	delete cap;
 // 	constexpr int FRAMESIZE = 1024;
 // 	constexpr int SAMPLERATE = 44100;
 // 	audio_analysis_lib::fft_component fft(FRAMESIZE);

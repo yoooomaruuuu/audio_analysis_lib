@@ -1,4 +1,11 @@
-﻿using System;
+﻿#define FFT
+#define WORLD
+#define INPUT
+
+//#undef FFT
+#undef WORLD
+#undef INPUT
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -23,8 +30,8 @@ namespace debugLibCs
             MODE_ERROR = 3
         }
 
-        [DllImport("lib_audio_analysis.dll", EntryPoint = "init_fft_component", CallingConvention = CallingConvention.StdCall)]
-        static extern void init_fft_component(int fft_size, ref IntPtr func_object);
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "create_fft_component", CallingConvention = CallingConvention.StdCall)]
+        static extern void create_fft_component(int fft_size, ref IntPtr func_object);
 
         [DllImport("lib_audio_analysis.dll", EntryPoint = "mylib_fft", CallingConvention = CallingConvention.StdCall)]
         static extern fft_exception mylib_fft(float[] input_re, float[] input_im, float[] output_re, float[] output_im, IntPtr func_object);
@@ -45,7 +52,7 @@ namespace debugLibCs
         static extern float hann_window(float x);
 
 
-                [DllImport("lib_audio_analysis.dll", EntryPoint = "create_input_capture", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("lib_audio_analysis.dll", EntryPoint = "create_input_capture", CallingConvention = CallingConvention.StdCall)]
         static extern void create_input_capture(ref IntPtr func_object);
 
         [DllImport("lib_audio_analysis.dll", EntryPoint = "delete_input_capture", CallingConvention = CallingConvention.StdCall)]
@@ -72,22 +79,36 @@ namespace debugLibCs
         [DllImport("lib_audio_analysis.dll", EntryPoint = "stop", CallingConvention = CallingConvention.StdCall)]
         static extern long stop(IntPtr func_object);
 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct HarvestOption {
+            public double f0Floor;
+            public double f0Ceil;
+            public double framePeriod;
+        }
+        [DllImport("win.dll", EntryPoint = "Harvest", CallingConvention = CallingConvention.StdCall)]
+        static extern void Harvest(double[] x, int xLength, int fs, ref HarvestOption option, double[] temporalPositions, double[] f0);
 
-#if false
+        [DllImport("win.dll", EntryPoint = "InitializeHarvestOption", CallingConvention = CallingConvention.StdCall)]
+        static extern void InitializeHarvestOption(ref HarvestOption option);
+
+        [DllImport("win.dll", EntryPoint = "GetSamplesForHarvest", CallingConvention = CallingConvention.StdCall)]
+        static extern int GetSamplesForHarvest(int fs, int xLength, double framePeriod);
+
+#if FFT
         static void Main(string[] args)
         {
             IntPtr fft_object = new IntPtr();
             IntPtr ifft_object = new IntPtr();
 
             const int FFT_SIZE = 1024;
-            init_fft_component(FFT_SIZE, ref fft_object);
-            init_fft_component(FFT_SIZE, ref ifft_object);
+            create_fft_component(FFT_SIZE, ref fft_object);
+            create_fft_component(FFT_SIZE, ref ifft_object);
 
             get_fft_size(fft_object);
             get_fft_size(ifft_object);
 
             fft_mode_setting(fft_mode.FFT, fft_object);
-            fft_mode_setting(fft_mode.IFFT, ifft_object);list_str
+            fft_mode_setting(fft_mode.IFFT, ifft_object);
 
             float[] input_re = new float[FFT_SIZE];
             float[] input_im = new float[FFT_SIZE];
@@ -124,7 +145,7 @@ namespace debugLibCs
                 }
             }
             catch (EndOfStreamException e)
-            {list_str
+            {
                 Console.WriteLine(e.Message);
             }
             finally
@@ -135,7 +156,7 @@ namespace debugLibCs
             }
 
         }
-#else
+#elif INPUT
         static void Main(string[] args)
         {
             IntPtr input_cap = new IntPtr();
@@ -157,12 +178,18 @@ namespace debugLibCs
 
             start(input_cap);
 
-            for(int i=0; i<100; i++)
+            int count = 0;
+            Console.WriteLine("start");
+            while(true)
             {
-                caputre_data(ref data_ptr, input_cap);
-                Marshal.Copy(data_ptr, data, 0, get_buf_size(input_cap));
-                output_stream.Write(data, 0, get_buf_size(input_cap));
-                Thread.Sleep(16);
+                if(caputre_data(ref data_ptr, input_cap) == 0)
+                {
+                    Marshal.Copy(data_ptr, data, 0, get_buf_size(input_cap));
+                    output_stream.Write(data, 0, get_buf_size(input_cap));
+                    count++;
+                }
+                if (count == 1000) break;
+                //Thread.Sleep(1);
             }
 
             stop(input_cap);
@@ -176,6 +203,32 @@ namespace debugLibCs
             delete_input_capture(ref input_cap);
             //Marshal.FreeCoTaskMem(data_ptr);
        }
+#elif WORLD
+
+        static void Main(string[] args)
+        {
+            var input_file_name = @"test_cap.pcm";
+            var input_stream = new BinaryReader(new FileStream(input_file_name, FileMode.Open));
+            HarvestOption option = new HarvestOption();
+            InitializeHarvestOption(ref option);
+            option.f0Ceil = 8000;
+            option.f0Floor = 40;
+            option.framePeriod = 16;
+            int dataSize = 2048;
+            double[] inputData = new double[dataSize];
+            for(int i=0; i<dataSize; i++)
+            {
+                inputData[i] = (double)input_stream.ReadInt16(); // 32767;
+            }
+            for(int i=0; i<dataSize; i++)
+            {
+                inputData[i] = inputData[i] / 32767.0;
+            }
+            double[] tmp = new double[GetSamplesForHarvest(44100, dataSize, 16)];
+            double[] f0 = new double[GetSamplesForHarvest(44100, dataSize, 16)];
+            Harvest(inputData, dataSize, 44100, ref option, tmp, f0);
+            
+        }
 #endif
     }
 }

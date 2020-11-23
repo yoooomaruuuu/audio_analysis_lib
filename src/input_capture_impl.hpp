@@ -21,7 +21,7 @@ namespace audio_analysis_lib
 	public:
 		input_capture_impl();
 
-		void init(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index);
+		HRESULT init(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index);
 
 		int get_buf_size();
 

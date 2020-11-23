@@ -1,5 +1,6 @@
 #pragma once
-#include "fftw3.h"
+//#include "fftw3.h"
+#include "fft.h"
 #include <stdexcept>
 
 namespace audio_analysis_lib
@@ -30,9 +31,9 @@ namespace audio_analysis_lib
 	private:
 		fft_exception fft_(const float* input_re, const float* input_im, float* output_re, float* output_im);
 		int m_fft_size;
-		fftw_complex* m_input;
-		fftw_complex* m_output;
-		fftw_plan m_plan;
+		fft_complex* m_input;
+		fft_complex* m_output;
+		fft_plan m_plan;
 		fft_mode m_mode;
 	};
 }

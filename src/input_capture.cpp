@@ -10,9 +10,9 @@ input_capture::input_capture()
 {
 }
 
-void input_capture::init(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index)
+HRESULT input_capture::init(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index)
 {
-	ptr->init(sample_rate, channels, bits_per_sample, frame_ms, device_index);
+	return ptr->init(sample_rate, channels, bits_per_sample, frame_ms, device_index);
 }
 
 int input_capture::get_buf_size()
@@ -55,9 +55,9 @@ DLLEXPORT void audio_analysis_lib::create_input_capture(void** func_object)
 	*func_object = new audio_analysis_lib::input_capture();
 }
 
-DLLEXPORT void audio_analysis_lib::init_input_capture(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index, void* func_object)
+DLLEXPORT HRESULT audio_analysis_lib::init_input_capture(DWORD sample_rate, WORD channels, WORD bits_per_sample, int frame_ms, int device_index, void* func_object)
 {
-	((input_capture*)func_object)->init(sample_rate, channels, bits_per_sample, frame_ms, device_index);
+	return ((input_capture*)func_object)->init(sample_rate, channels, bits_per_sample, frame_ms, device_index);
 }
 
 DLLEXPORT int audio_analysis_lib::get_buf_size(void* func_object)
