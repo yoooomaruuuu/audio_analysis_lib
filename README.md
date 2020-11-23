@@ -11,3 +11,6 @@
 
 ## ソースコード参考
 * Directsound音声キャプチャ - https://fftester06.hatenablog.com/entry/2019/03/16/180327
+
+## ライセンス
+* 修正BSDライセンス
