@@ -35,9 +35,9 @@ HRESULT input_capture::start()
 	return ptr->start();
 }
 
-HRESULT input_capture::capture_data(char** tmp)
+HRESULT input_capture::capture_data(char** tmp, int& copy_length)
 {
-	return ptr->capture_data(tmp);
+	return ptr->capture_data(tmp, copy_length);
 }
 
 HRESULT input_capture::stop()
@@ -80,9 +80,9 @@ DLLEXPORT HRESULT audio_analysis_lib::start(void* func_object)
 	return ((input_capture*)func_object)->start();
 }
 
-DLLEXPORT HRESULT audio_analysis_lib::caputre_data(char** tmp, void* func_object)
+DLLEXPORT HRESULT audio_analysis_lib::caputre_data(char** tmp, int& copy_length, void* func_object)
 {
-	return ((input_capture*)func_object)->capture_data(tmp);
+	return ((input_capture*)func_object)->capture_data(tmp, copy_length);
 }
 
 DLLEXPORT HRESULT audio_analysis_lib::stop(void* func_object)

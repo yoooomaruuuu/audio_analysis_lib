@@ -31,7 +31,7 @@ namespace audio_analysis_lib
 
 		HRESULT start();
 
-		HRESULT capture_data(char** tmp);
+		HRESULT capture_data(char** tmp, int& copy_length);
 
 		HRESULT stop();
 

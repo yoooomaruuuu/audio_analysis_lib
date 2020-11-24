@@ -21,7 +21,7 @@ namespace audio_analysis_lib
 
 		HRESULT start();
 
-		HRESULT capture_data(char** tmp);
+		HRESULT capture_data(char** tmp, int& copy_length);
 
 		HRESULT stop();
 
@@ -43,7 +43,7 @@ namespace audio_analysis_lib
 
 	DLLEXPORT HRESULT start(void* func_object);
 	
-	DLLEXPORT HRESULT caputre_data(char** tmp, void* func_object);
+	DLLEXPORT HRESULT caputre_data(char** tmp, int& copy_length, void* func_object);
 
 	DLLEXPORT HRESULT stop(void* func_object);
 

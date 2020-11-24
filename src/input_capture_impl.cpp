@@ -1,4 +1,5 @@
 #include "input_capture_impl.hpp"
+#include <thread>
 
 using namespace audio_analysis_lib;
 
@@ -39,7 +40,7 @@ HRESULT input_capture_impl::init(DWORD sample_rate, WORD channels, WORD bits_per
 		return hr;
 	}
 	m_copied_buffer = (char*)malloc(
-		m_wfx.nAvgBytesPerSec * m_wfx.nChannels * m_frame_ms / 1000.0f); 
+		m_wfx.nAvgBytesPerSec);// *m_wfx.nChannels* m_frame_ms / 1000.0f);
 	hr = m_capture_device->CreateCaptureBuffer(&m_buffer_describer,&m_capture_buffer,NULL);
 	if (hr != DS_OK)
 	{
@@ -51,7 +52,7 @@ HRESULT input_capture_impl::init(DWORD sample_rate, WORD channels, WORD bits_per
 
 int input_capture_impl::get_buf_size()
 {
-	return m_wfx.nAvgBytesPerSec * m_frame_ms / 1000.0f;
+	return m_wfx.nAvgBytesPerSec; // *m_frame_ms / 1000.0f;
 }
 
 int input_capture_impl::get_input_devices_list_size()
@@ -69,45 +70,51 @@ std::vector<std::wstring> input_capture_impl::get_input_devices_list()
 HRESULT input_capture_impl::start()
 {
 	m_hr = m_capture_buffer->Start(DSCBSTART_LOOPING);
-	Sleep(3000);
+	Sleep(100);
 	return m_hr;
 }
 
-HRESULT input_capture_impl::capture_data(char** tmp)
+HRESULT input_capture_impl::capture_data(char** tmp, int& copy_length)
 {
 	m_capture_buffer->GetCurrentPosition(&m_captured_pos, &m_readable_pos);
-	if  ( m_readable_pos > m_read_buffer_pos ) m_lock_length = m_readable_pos - m_read_buffer_pos;
+	if (m_readable_pos > m_read_buffer_pos) m_lock_length = m_readable_pos - m_read_buffer_pos;
+	// readable_posとread_buffer_posが一致しているときは大きくとってしまうため、切って置く
+	else if (m_readable_pos == m_read_buffer_pos) return E_FAIL;
 	else m_lock_length = m_buffer_describer.dwBufferBytes - m_read_buffer_pos + m_readable_pos;
-	//取得できたバッファサイズがget_buf_sizeより小さい場合、error
-	if (m_lock_length < get_buf_size()) return E_FAIL;
-	m_lock_length = get_buf_size();
+	////取得できたバッファサイズがget_buf_sizeより小さい場合、error
+	//if (m_lock_length < get_buf_size()) return E_FAIL;
+	//m_lock_length = get_buf_size();
 
-	//キャプチャバッファはringbufferなため、領域が2つに分断されることがある
-	//そのため、wappedCaputreDataも用意して、2つを書き出している
-	m_hr = m_capture_buffer->Lock(m_read_buffer_pos, m_lock_length,
-		&m_captured_data, &m_captured_length,
-		&m_wrapped_captured_data, &m_wrapped_captured_length,
-		NULL);
-	if (m_hr != DS_OK) {
-		printf("Lock error:%x\n", m_hr);
-		return m_hr;
-	}
+	printf("Lock startRead:%d, readable:%d, locklen:%d, captured:%d\n",
+			m_read_buffer_pos, m_readable_pos, m_lock_length, m_captured_pos);
+	////キャプチャバッファはringbufferなため、領域が2つに分断されることがある
+	////そのため、wappedCaputreDataも用意して、2つを書き出している
+	 m_hr = m_capture_buffer->Lock(m_read_buffer_pos, m_lock_length, &m_captured_data, &m_captured_length, &m_wrapped_captured_data, &m_wrapped_captured_length, NULL);
+	 if (m_hr != DS_OK) {
+	 	printf("Lock error:%x\n", m_hr);
+	 	return m_hr;
+	 }
+	 else {
+		 printf("buffer read, buf1:%d, buf2:%d\n", m_captured_length, m_wrapped_captured_length);
+	 }
 
-	if (m_captured_data != NULL) {
-		memcpy(m_copied_buffer, m_captured_data, m_captured_length);
-		m_read_buffer_pos += m_captured_length;
-		if (m_read_buffer_pos >= m_buffer_describer.dwBufferBytes)
-			m_read_buffer_pos = 0;
-	}
+	 if (m_captured_data != NULL) {
+	 	memcpy(m_copied_buffer, m_captured_data, m_captured_length);
+		copy_length = m_captured_length;
+	 	m_read_buffer_pos += m_captured_length;
+	 	if (m_read_buffer_pos >= m_buffer_describer.dwBufferBytes)
+	 		m_read_buffer_pos = 0;
+	 }
 
-	if (m_wrapped_captured_data != NULL) { // Ring buffer wrapped
-		memcpy(m_copied_buffer, m_wrapped_captured_data, m_wrapped_captured_length);
-		m_read_buffer_pos = m_wrapped_captured_length;
-	}
+	 if (m_wrapped_captured_data != NULL) { // Ring buffer wrapped
+	 	memcpy(m_copied_buffer, m_wrapped_captured_data, m_wrapped_captured_length);
+		copy_length += m_wrapped_captured_length;
+	 	m_read_buffer_pos = m_wrapped_captured_length;
+	 }
 
-	m_hr = m_capture_buffer->Unlock( m_captured_data, m_captured_length,
-		m_wrapped_captured_data, m_wrapped_captured_length);
-	*tmp = m_copied_buffer;
+	 m_hr = m_capture_buffer->Unlock( m_captured_data, m_captured_length, m_wrapped_captured_data, m_wrapped_captured_length);
+	 *tmp = m_copied_buffer;
+	std::this_thread::sleep_for(std::chrono::milliseconds(m_frame_ms));
 	return DS_OK;
 }
 
