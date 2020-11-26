@@ -6,7 +6,7 @@
 using namespace audio_analysis_lib;
 
 input_capture::input_capture()
-	:ptr(std::make_unique<input_capture_impl>())
+	:ptr(std::make_unique<my_direct_sound::input_capture_impl>())
 {
 }
 
@@ -72,7 +72,7 @@ DLLEXPORT int audio_analysis_lib::get_input_devices_list_size(void* func_object)
 
 DLLEXPORT void audio_analysis_lib::get_input_devices_list(int index, wchar_t* tmp, void* func_object)
 {
-	wcscpy_s(tmp, devicesDescMaxSize, ((input_capture*)func_object)->get_input_devices_list()[index].c_str());
+	wcscpy_s(tmp, my_direct_sound::devicesDescMaxSize, ((input_capture*)func_object)->get_input_devices_list()[index].c_str());
 }
 
 DLLEXPORT HRESULT audio_analysis_lib::start(void* func_object)

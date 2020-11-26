@@ -3,7 +3,7 @@
 using namespace audio_analysis_lib;
 
 fft_component::fft_component(int fft_size)
-	:pImpl(std::make_unique<fft_component_impl>(fft_size)) { }
+	:pImpl(std::make_unique<my_world_voice_feature::fft_component_impl>(fft_size)) { }
 
 fft_component::~fft_component() {};
 

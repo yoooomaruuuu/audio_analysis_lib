@@ -1,6 +1,6 @@
 #include "fft_component_impl.hpp"
 
-using namespace audio_analysis_lib;
+using namespace audio_analysis_lib::my_world_voice_feature;
 
 fft_component_impl::fft_component_impl(int init_fft_size)
 	:m_fft_size(init_fft_size), 

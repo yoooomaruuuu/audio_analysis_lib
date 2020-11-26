@@ -32,7 +32,7 @@ typedef struct {
 // Output:
 //   aperiodicity  : Aperiodicity estimated by D4C.
 //-----------------------------------------------------------------------------
-void D4C(const double *x, int x_length, int fs,
+WORLD_API void D4C(const double *x, int x_length, int fs,
     const double *temporal_positions, const double *f0, int f0_length,
     int fft_size, const D4COption *option, double **aperiodicity);
 
@@ -43,7 +43,7 @@ void D4C(const double *x, int x_length, int fs,
 // Output:
 //   option   : Struct for the optional parameter.
 //-----------------------------------------------------------------------------
-void InitializeD4COption(D4COption *option);
+WORLD_API void InitializeD4COption(D4COption *option);
 
 WORLD_END_C_DECLS
 

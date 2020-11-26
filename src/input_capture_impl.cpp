@@ -1,9 +1,9 @@
 #include "input_capture_impl.hpp"
 #include <thread>
 
-using namespace audio_analysis_lib;
+using namespace audio_analysis_lib::my_direct_sound;
 
-BOOL audio_analysis_lib::DSEnumProc(LPGUID lpGUID, LPCTSTR lpszDesc, LPCTSTR lpszDrvName, LPVOID lpContext)
+BOOL audio_analysis_lib::my_direct_sound::DSEnumProc(LPGUID lpGUID, LPCTSTR lpszDesc, LPCTSTR lpszDrvName, LPVOID lpContext)
 { 
 	if (lpGUID != NULL) { //  NULL only for "Primary Sound Driver". 
 		((DEVICE_MAP*)lpContext)->first.push_back(lpGUID);

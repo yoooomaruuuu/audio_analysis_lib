@@ -35,7 +35,7 @@ typedef struct {
 // Output:
 //   spectrogram        : Spectrogram estimated by CheapTrick.
 //-----------------------------------------------------------------------------
-void CheapTrick(const double *x, int x_length, int fs,
+WORLD_API void CheapTrick(const double *x, int x_length, int fs,
     const double *temporal_positions, const double *f0, int f0_length,
     const CheapTrickOption *option, double **spectrogram);
 
@@ -49,7 +49,7 @@ void CheapTrick(const double *x, int x_length, int fs,
 // Output:
 //   option   : Struct for the optional parameter
 //-----------------------------------------------------------------------------
-void InitializeCheapTrickOption(int fs, CheapTrickOption *option);
+WORLD_API void InitializeCheapTrickOption(int fs, CheapTrickOption *option);
 
 //-----------------------------------------------------------------------------
 // GetFFTSizeForCheapTrick() calculates the FFT size based on the sampling
@@ -62,7 +62,7 @@ void InitializeCheapTrickOption(int fs, CheapTrickOption *option);
 // Output:
 //   FFT size
 //-----------------------------------------------------------------------------
-int GetFFTSizeForCheapTrick(int fs, const CheapTrickOption *option);
+WORLD_API int GetFFTSizeForCheapTrick(int fs, const CheapTrickOption *option);
 
 //-----------------------------------------------------------------------------
 // GetF0FloorForCheapTrick() calculates actual lower f0 limit for CheapTrick
@@ -77,7 +77,7 @@ int GetFFTSizeForCheapTrick(int fs, const CheapTrickOption *option);
 // Output:
 //   Lower f0 limit (Hz)
 //-----------------------------------------------------------------------------
-double GetF0FloorForCheapTrick(int fs, int fft_size);
+WORLD_API double GetF0FloorForCheapTrick(int fs, int fft_size);
 
 WORLD_END_C_DECLS
 

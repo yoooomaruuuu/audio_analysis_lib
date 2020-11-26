@@ -4,7 +4,7 @@
 
 namespace audio_analysis_lib
 {
-	class input_capture_impl;
+	class my_direct_sound::input_capture_impl;
 
 	class input_capture
 	{
@@ -28,7 +28,7 @@ namespace audio_analysis_lib
 		~input_capture();
 
 	private:
-		std::unique_ptr<input_capture_impl> ptr;
+		std::unique_ptr<my_direct_sound::input_capture_impl> ptr;
 	};
 
 	DLLEXPORT void create_input_capture(void** func_object);
