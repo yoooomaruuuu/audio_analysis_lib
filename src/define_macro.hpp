@@ -1,8 +1,10 @@
 #pragma once
+#include "world/macrodefinitions.h"
 
-#ifdef __cplusplus  
-#define DLLEXPORT extern "C" __declspec(dllexport) 
-#else
-#define DLLEXPORT __declspec(dllexport) 
-#endif
+#define DLLEXPORT WORLD_API
+//#ifdef __cplusplus  
+//#define DLLEXPORT extern "C" __declspec(dllexport) 
+//#else
+//#define DLLEXPORT __declspec(dllexport) 
+//#endif
 
