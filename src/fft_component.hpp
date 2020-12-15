@@ -1,12 +1,14 @@
 #pragma once
 #include <iostream>
+#include <memory>
 #include "fft_component_impl.hpp"
 #include "define_macro.hpp"
 
 namespace audio_analysis_lib
 {
 	//前方宣言
-	class my_world_voice_feature::fft_component_impl;
+	using namespace my_world_voice_feature;
+	class fft_component_impl;
 
 	class fft_component
 	{
