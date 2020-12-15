@@ -1,3 +1,4 @@
+#ifdef _WIN32
 #include "input_capture.hpp"
 #include <string.h>
 #include <locale>
@@ -94,5 +95,5 @@ DLLEXPORT void audio_analysis_lib::delete_input_capture(void** func_object)
 {
 	delete ((input_capture*)*func_object);
 }
-
+#endif
 

@@ -1,3 +1,4 @@
+#ifdef _WIN32
 #include "input_capture_impl.hpp"
 #include <thread>
 
@@ -129,4 +130,4 @@ input_capture_impl::~input_capture_impl()
 	free(m_copied_buffer);
 	CoUninitialize();
 }
-
+#endif

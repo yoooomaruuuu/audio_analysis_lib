@@ -1,3 +1,4 @@
+#ifdef _WIN32
 #include <memory>
 #include "define_macro.hpp"
 #include "input_capture_impl.hpp"
@@ -49,3 +50,4 @@ namespace audio_analysis_lib
 
 	DLLEXPORT void delete_input_capture(void** func_object);
 }
+#endif

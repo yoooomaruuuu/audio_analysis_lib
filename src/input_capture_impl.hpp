@@ -1,3 +1,4 @@
+#ifdef _WIN32
 #include <dsound.h>
 #include <time.h>
 #include <iostream>
@@ -73,3 +74,4 @@ namespace audio_analysis_lib
 		};
 	}
 }
+#endif
