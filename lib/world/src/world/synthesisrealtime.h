@@ -87,7 +87,7 @@ typedef struct {
 // Output:
 //   synth                : Initialized synthesizer
 //-----------------------------------------------------------------------------
-void InitializeSynthesizer(int fs, double frame_period, int fft_size,
+WORLD_API void InitializeSynthesizer(int fs, double frame_period, int fft_size,
   int buffer_size, int number_of_pointers, WorldSynthesizer *synth);
 
 //-----------------------------------------------------------------------------
@@ -106,18 +106,18 @@ void InitializeSynthesizer(int fs, double frame_period, int fft_size,
 // Return value:
 //   1: True, 0: False.
 //-----------------------------------------------------------------------------
-int AddParameters(double *f0, int f0_length, double **spectrogram,
+WORLD_API int AddParameters(double *f0, int f0_length, double **spectrogram,
   double **aperiodicity, WorldSynthesizer *synth);
 
 //-----------------------------------------------------------------------------
 // RefreshSynthesizer() sets the parameters to default.
 //-----------------------------------------------------------------------------
-void RefreshSynthesizer(WorldSynthesizer *synth);
+WORLD_API void RefreshSynthesizer(WorldSynthesizer *synth);
 
 //-----------------------------------------------------------------------------
 // DestroySynthesizer() release the memory.
 //-----------------------------------------------------------------------------
-void DestroySynthesizer(WorldSynthesizer *synth);
+WORLD_API void DestroySynthesizer(WorldSynthesizer *synth);
 
 //-----------------------------------------------------------------------------
 // IsLocked() checks whether the synthesizer is locked or not.
@@ -133,7 +133,7 @@ void DestroySynthesizer(WorldSynthesizer *synth);
 // Output:
 //   1: True, 0: False.
 //-----------------------------------------------------------------------------
-int IsLocked(WorldSynthesizer *synth);
+WORLD_API int IsLocked(WorldSynthesizer *synth);
 
 //-----------------------------------------------------------------------------
 // Synthesis2() generates speech with length of synth->buffer_size sample.
@@ -145,7 +145,7 @@ int IsLocked(WorldSynthesizer *synth);
 // Output:
 //   1: True, 0: False.
 //-----------------------------------------------------------------------------
-int Synthesis2(WorldSynthesizer *synth);
+WORLD_API int Synthesis2(WorldSynthesizer *synth);
 
 WORLD_END_C_DECLS
 
