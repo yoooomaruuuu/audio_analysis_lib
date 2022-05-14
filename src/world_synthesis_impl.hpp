@@ -26,7 +26,7 @@ namespace audio_analysis_lib
 		class world_synthesis_impl
 		{
 		public:
-			world_synthesis_impl(int init_fs, float init_frame_period);
+			world_synthesis_impl(int init_fs, float init_frame_period, int init_input_length);
 			~world_synthesis_impl();
 			void realtime_synth(double f0_shift, double* frame_data, double* output_data);
 		private:
@@ -34,12 +34,13 @@ namespace audio_analysis_lib
 			void sp_estimate(double* frame_data);
 			void ap_estimate(double* frame_data);
 			void f0_shift(double shift);
-			world_parameters* param;
+			world_parameters param;
 			WorldSynthesizer synthesizer;
 			harvest_f0* harvest;
 			cheaptrick_sp* cheaptrick;
 			d4c_ap* d4c;
 			int frame_length;
+			int input_length;
 		};
     }
 }

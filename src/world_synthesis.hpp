@@ -12,7 +12,7 @@ namespace audio_analysis_lib
 	class world_synthesis
 	{
 	public:
-		world_synthesis(int init_fs, float init_frame_period);
+		world_synthesis(int init_fs, float init_frame_period, int init_input_length);
 		~world_synthesis();
 		void realtime_synth(double f0_shift, double* frame_data, double* output_data);
 	private:
