@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <memory>
-#include "fft_component_impl.hpp"
+#include "impl/fft_component_impl.hpp"
 #include "define_macro.hpp"
 
 namespace audio_analysis_lib

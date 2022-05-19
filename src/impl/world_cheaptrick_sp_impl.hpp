@@ -1,5 +1,5 @@
 #pragma once
-#include "world\cheaptrick.h"
+#include "world/cheaptrick.h"
 
 namespace audio_analysis_lib
 {

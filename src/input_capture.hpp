@@ -1,7 +1,7 @@
 #ifdef _WIN32
 #include <memory>
 #include "define_macro.hpp"
-#include "input_capture_impl.hpp"
+#include "impl/input_capture_impl.hpp"
 
 namespace audio_analysis_lib
 {
