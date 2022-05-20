@@ -1,5 +1,5 @@
 #pragma once
-#include "world_synthesis_impl.hpp"
+#include "impl/world_synthesis_impl.hpp"
 #include <memory>
 
 namespace audio_analysis_lib

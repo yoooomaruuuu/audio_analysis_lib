@@ -19,36 +19,36 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\define_macro.hpp" />
-    <ClInclude Include="..\src\input_capture.hpp" />
-    <ClInclude Include="..\src\input_capture_impl.hpp" />
-    <ClInclude Include="..\src\lib_audio_analysis.h" />
-    <ClInclude Include="..\src\fft_component.hpp" />
-    <ClInclude Include="..\src\fft_component_impl.hpp" />
-    <ClInclude Include="..\src\window_functions.hpp" />
-    <ClInclude Include="..\src\world_cheaptrick_sp.hpp" />
-    <ClInclude Include="..\src\world_cheaptrick_sp_impl.hpp" />
-    <ClInclude Include="..\src\world_d4c_ap.hpp" />
-    <ClInclude Include="..\src\world_d4c_ap_impl.hpp" />
-    <ClInclude Include="..\src\world_harvest_f0.hpp" />
-    <ClInclude Include="..\src\world_harvest_f0_impl.hpp" />
-    <ClInclude Include="..\src\world_synthesis.hpp" />
-    <ClInclude Include="..\src\world_synthesis_impl.hpp" />
+    <ClCompile Include="..\src\impl\fft_component.cpp" />
+    <ClCompile Include="..\src\impl\fft_component_impl.cpp" />
+    <ClCompile Include="..\src\impl\input_capture.cpp" />
+    <ClCompile Include="..\src\impl\input_capture_impl.cpp" />
+    <ClCompile Include="..\src\impl\window_functions.cpp" />
+    <ClCompile Include="..\src\impl\world_cheaptrick_sp.cpp" />
+    <ClCompile Include="..\src\impl\world_cheaptrick_sp_impl.cpp" />
+    <ClCompile Include="..\src\impl\world_d4c_ap.cpp" />
+    <ClCompile Include="..\src\impl\world_d4c_ap_impl.cpp" />
+    <ClCompile Include="..\src\impl\world_harvest_f0.cpp" />
+    <ClCompile Include="..\src\impl\world_harvest_f0_impl.cpp" />
+    <ClCompile Include="..\src\impl\world_synthesis.cpp" />
+    <ClCompile Include="..\src\impl\world_synthesis_impl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\fft_component.cpp" />
-    <ClCompile Include="..\src\fft_component_impl.cpp" />
-    <ClCompile Include="..\src\input_capture.cpp" />
-    <ClCompile Include="..\src\input_capture_impl.cpp" />
-    <ClCompile Include="..\src\window_functions.cpp" />
-    <ClCompile Include="..\src\world_cheaptrick_sp.cpp" />
-    <ClCompile Include="..\src\world_cheaptrick_sp_impl.cpp" />
-    <ClCompile Include="..\src\world_d4c_ap.cpp" />
-    <ClCompile Include="..\src\world_d4c_ap_impl.cpp" />
-    <ClCompile Include="..\src\world_harvest_f0.cpp" />
-    <ClCompile Include="..\src\world_harvest_f0_impl.cpp" />
-    <ClCompile Include="..\src\world_synthesis.cpp" />
-    <ClCompile Include="..\src\world_synthesis_impl.cpp" />
+    <ClInclude Include="..\src\define_macro.hpp" />
+    <ClInclude Include="..\src\fft_component.hpp" />
+    <ClInclude Include="..\src\impl\fft_component_impl.hpp" />
+    <ClInclude Include="..\src\impl\input_capture_impl.hpp" />
+    <ClInclude Include="..\src\impl\world_cheaptrick_sp_impl.hpp" />
+    <ClInclude Include="..\src\impl\world_d4c_ap_impl.hpp" />
+    <ClInclude Include="..\src\impl\world_harvest_f0_impl.hpp" />
+    <ClInclude Include="..\src\impl\world_synthesis_impl.hpp" />
+    <ClInclude Include="..\src\input_capture.hpp" />
+    <ClInclude Include="..\src\lib_audio_analysis.h" />
+    <ClInclude Include="..\src\window_functions.hpp" />
+    <ClInclude Include="..\src\world_cheaptrick_sp.hpp" />
+    <ClInclude Include="..\src\world_d4c_ap.hpp" />
+    <ClInclude Include="..\src\world_harvest_f0.hpp" />
+    <ClInclude Include="..\src\world_synthesis.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -108,12 +108,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\out\win\$(Platform)_$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\out\win\$(Platform)_$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -135,14 +139,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WORLD_LIBRARIES_EXPORTS;WORLD_SRC;_WINDLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\lib\world\src\world\;$(ProjectDir)..\src\lib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\lib\world\src;$(ProjectDir)..\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)$(Platform)\$(Configuration)\win.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>win.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalDependencies>$(ProjectDir)..\lib\fftw\libfftw3-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -174,16 +179,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WORLD_LIBRARIES_EXPORTS;WORLD_SRC;_WINDLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\lib\world\src\world;$(ProjectDir)..\src\lib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\lib\world\src;$(ProjectDir)..\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)$(Platform)\$(Configuration)\win.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>win.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalDependencies>$(ProjectDir)..\lib\fftw\libfftw3-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
