@@ -18,5 +18,10 @@ namespace audio_analysis_lib
 	private:
 		std::unique_ptr<my_world_voice_feature::world_synthesis_impl> pimpl;
 	};
+
+	DLLEXPORT void create_world_synthesis(int init_fs, int init_frame_period, int init_input_length, void** func_object);
+	DLLEXPORT void realitime_synth(double f0_shift, double* frame_data, double* output_data, void* func_object);
+	DLLEXPORT void delete_world_synthesis(void** func_object);
 }
+
 
