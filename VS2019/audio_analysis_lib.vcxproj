@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\impl\fft_component.cpp" />
-    <ClCompile Include="..\src\impl\fft_component_impl.cpp" />
     <ClCompile Include="..\src\impl\input_capture.cpp" />
     <ClCompile Include="..\src\impl\input_capture_impl.cpp" />
     <ClCompile Include="..\src\impl\window_functions.cpp" />
@@ -36,7 +35,7 @@
   <ItemGroup>
     <ClInclude Include="..\src\define_macro.hpp" />
     <ClInclude Include="..\src\fft_component.hpp" />
-    <ClInclude Include="..\src\impl\fft_component_impl.hpp" />
+    <ClInclude Include="..\src\fft_exception.hpp" />
     <ClInclude Include="..\src\impl\input_capture_impl.hpp" />
     <ClInclude Include="..\src\impl\world_cheaptrick_sp_impl.hpp" />
     <ClInclude Include="..\src\impl\world_d4c_ap_impl.hpp" />
