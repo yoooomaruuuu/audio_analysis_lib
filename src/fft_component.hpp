@@ -15,6 +15,8 @@ namespace audio_analysis_lib
 			IFFT = 1,
 			ERROR = -1
 		};
+
+		// 前方宣言
 		class fft_component_impl;
 
 		class fft_component
