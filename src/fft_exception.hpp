@@ -3,6 +3,7 @@ namespace audio_analysis_lib
 {
 	namespace my_world_voice_feature
 	{
+		// fft_component‚É‚¨‚¯‚é•Ô‚è’l
 		enum class fft_exception : int
 		{
 			SUCCESS = 0,

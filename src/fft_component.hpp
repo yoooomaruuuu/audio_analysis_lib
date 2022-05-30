@@ -8,6 +8,7 @@ namespace audio_analysis_lib
 {
 	namespace my_world_voice_feature
 	{
+		// fft関数の動作モード
 		enum class fft_mode : int
 		{
 			FFT = 0,
