@@ -5,11 +5,11 @@
 #include "fft_component.hpp"
 
 
-// impl宣言、実装
 namespace audio_analysis_lib
 {
 	namespace my_world_voice_feature
 	{
+		// implの宣言、実装
 		class fft_component_impl
 		{
 		public:
@@ -101,35 +101,35 @@ namespace audio_analysis_lib
 		int fft_component_impl::get_fft_size() { return m_fft_size; }
 
 	}
+
+	// fft_componentの実装
+	fft_component::fft_component(int fft_size)
+		:pImpl(std::make_unique<my_world_voice_feature::fft_component_impl>(fft_size)) { }
+
+	fft_component::~fft_component() {};
+
+	fft_exception fft_component::fft(const float* input_re, const float* input_im, float* output_re, float* output_im)
+	{
+		return pImpl->fft(input_re, input_im, output_re, output_im);
+	}
+
+	fft_exception fft_component::ifft(const float* input_re, const float* input_im, float* output_re, float* output_im)
+	{
+		return pImpl->ifft(input_re, input_im, output_re, output_im);
+	}
+
+	fft_exception fft_component::fft_mode_setting(fft_mode mode)
+	{
+		return pImpl->fft_mode_setting(mode);
+	}
+
+	int fft_component::get_fft_size()
+	{
+		return pImpl->get_fft_size();
+	}
 }
 
-// fft_componentの実装
 using namespace audio_analysis_lib;
-
-fft_component::fft_component(int fft_size)
-	:pImpl(std::make_unique<my_world_voice_feature::fft_component_impl>(fft_size)) { }
-
-fft_component::~fft_component() {};
-
-fft_exception fft_component::fft(const float* input_re, const float* input_im, float* output_re, float* output_im)
-{
-	return pImpl->fft(input_re, input_im, output_re, output_im);
-}
-
-fft_exception fft_component::ifft(const float* input_re, const float* input_im, float* output_re, float* output_im)
-{
-	return pImpl->ifft(input_re, input_im, output_re, output_im);
-}
-
-fft_exception fft_component::fft_mode_setting(fft_mode mode)
-{
-	return pImpl->fft_mode_setting(mode);
-}
-
-int fft_component::get_fft_size()
-{
-	return pImpl->get_fft_size();
-}
 
 // DLL定義エリア
 DLLEXPORT void audio_analysis_lib::create_fft_component(int init_fft_size, void** func_object)

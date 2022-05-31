@@ -8,39 +8,37 @@ namespace audio_analysis_lib
 {
 	namespace my_world_voice_feature
 	{
-		// fft関数の動作モード
-		enum class fft_mode : int
-		{
-			FFT = 0,
-			IFFT = 1,
-			ERROR = -1
-		};
-
 		// 前方宣言
 		class fft_component_impl;
-
-		class fft_component
-		{
-		public:
-
-			fft_component(int fft_size);
-
-			fft_exception fft(const float* input_re, const float* input_im, float* output_re, float* output_im);
-
-			fft_exception ifft(const float* input_re, const float* input_im, float* output_re, float* output_im);
-
-			fft_exception fft_mode_setting(fft_mode mode);
-
-			int get_fft_size();
-
-			~fft_component();
-
-		private:
-			std::unique_ptr<my_world_voice_feature::fft_component_impl> pImpl;
-		};
 	}
+	// fft関数の動作モード
+	enum class fft_mode : int
+	{
+		FFT = 0,
+		IFFT = 1,
+		ERROR = -1
+	};
 
-	using namespace my_world_voice_feature;
+	class fft_component
+	{
+	public:
+
+		fft_component(int fft_size);
+
+		fft_exception fft(const float* input_re, const float* input_im, float* output_re, float* output_im);
+
+		fft_exception ifft(const float* input_re, const float* input_im, float* output_re, float* output_im);
+
+		fft_exception fft_mode_setting(fft_mode mode);
+
+		int get_fft_size();
+
+		~fft_component();
+
+	private:
+		std::unique_ptr<my_world_voice_feature::fft_component_impl> pImpl;
+	};
+
 
 	DLLEXPORT void create_fft_component(int init_fft_size, void** func_object);
 
