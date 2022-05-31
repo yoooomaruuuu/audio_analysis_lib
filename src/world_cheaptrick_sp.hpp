@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 #include <memory>
 
 namespace audio_analysis_lib
 {
-	// ‘O•ûéŒ¾
+	// å‰æ–¹å®£è¨€
 	namespace my_world_voice_feature
 	{
 		class cheaptrick_sp_impl;

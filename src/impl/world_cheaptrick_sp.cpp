@@ -1,11 +1,11 @@
-#include "world_cheaptrick_sp.hpp"
+ï»¿#include "world_cheaptrick_sp.hpp"
 #include "world/cheaptrick.h"
 
 namespace audio_analysis_lib
 {
 	namespace my_world_voice_feature
 	{
-		// impl‚ÌéŒ¾AÀ‘•
+		// implã®å®£è¨€ã€å®Ÿè£…
 		class cheaptrick_sp_impl
 		{
 		public:
@@ -40,7 +40,7 @@ namespace audio_analysis_lib
 	}
 
 
-	// cheaptrick‚ÌÀ‘•
+	// cheaptrickã®å®Ÿè£…
 	cheaptrick_sp::cheaptrick_sp(int init_fs)
 		: pimpl(std::make_unique<my_world_voice_feature::cheaptrick_sp_impl>(init_fs))
 	{ }
