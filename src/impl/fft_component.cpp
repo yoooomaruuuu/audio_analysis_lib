@@ -5,7 +5,7 @@
 #include "fft_component.hpp"
 
 
-// impl宣言、実装
+// impl螳｣險縲∝ｮ溯｣�
 namespace audio_analysis_lib
 {
 	namespace my_world_voice_feature
@@ -103,7 +103,7 @@ namespace audio_analysis_lib
 	}
 }
 
-// fft_componentの実装
+// fft_component縺ｮ螳溯｣�
 using namespace audio_analysis_lib;
 
 fft_component::fft_component(int fft_size)
@@ -131,7 +131,7 @@ int fft_component::get_fft_size()
 	return pImpl->get_fft_size();
 }
 
-// DLL定義エリア
+// DLL螳夂ｾｩ繧ｨ繝ｪ繧｢
 DLLEXPORT void audio_analysis_lib::create_fft_component(int init_fft_size, void** func_object)
 {
 	*func_object = new fft_component(init_fft_size);
