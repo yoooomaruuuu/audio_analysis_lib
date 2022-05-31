@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 //#include "fftw3.h"
 #include "world\fft.h"
 #include <stdexcept>
