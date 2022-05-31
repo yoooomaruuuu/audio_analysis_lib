@@ -1,11 +1,13 @@
 #pragma once
-#include "impl/world_d4c_ap_impl.hpp"
 #include <memory>
 
 namespace audio_analysis_lib
 {
-	using namespace my_world_voice_feature;
-	class d4c_ap_impl;
+	// ‘O•ûéŒ¾
+	namespace my_world_voice_feature
+	{
+		class d4c_ap_impl;
+	}
 	
 	class d4c_ap
 	{
