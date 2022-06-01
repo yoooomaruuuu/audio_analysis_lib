@@ -1,13 +1,17 @@
 #pragma once
 #include <iostream>
 #include <memory>
-#include "impl/sound_convolution_impl.hpp"
-#include "fft_component.hpp"
 
 namespace audio_analysis_lib
 {
-	class sound_convolution_impl;
-	class fft_component;
+	namespace my_signal_processing
+	{
+		class sound_convolution_impl;
+	}
+	namespace my_world_voice_feature
+	{
+		class fft_component;
+	}
 
 	class sound_convolution
 	{
@@ -17,6 +21,6 @@ namespace audio_analysis_lib
 		void frame_convolution(const float* src1, const float* src2);
 
 	private:
-		std::unique_ptr<sound_convolution_impl> pImpl;
+		std::unique_ptr<my_signal_processing::sound_convolution_impl> pImpl;
 	};
 }
