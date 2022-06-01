@@ -22,7 +22,6 @@
     <ClCompile Include="..\src\impl\fft_component.cpp" />
     <ClCompile Include="..\src\impl\input_capture.cpp" />
     <ClCompile Include="..\src\impl\sound_convolution.cpp" />
-    <ClCompile Include="..\src\impl\sound_convolution_impl.cpp" />
     <ClCompile Include="..\src\impl\window_functions.cpp" />
     <ClCompile Include="..\src\impl\world_cheaptrick_sp.cpp" />
     <ClCompile Include="..\src\impl\world_d4c_ap.cpp" />
