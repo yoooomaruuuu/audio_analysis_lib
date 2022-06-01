@@ -1,13 +1,13 @@
 #pragma once
-#include "impl/world_synthesis_impl.hpp"
 #include <memory>
+#include "define_macro.hpp"
 
 namespace audio_analysis_lib
 {
-	using namespace my_world_voice_feature;
-
-	class world_synthesis_impl;
-	struct world_parameters;
+	namespace my_world_voice_feature
+	{
+		class world_synthesis_impl;
+	}
 
 	class world_synthesis
 	{
