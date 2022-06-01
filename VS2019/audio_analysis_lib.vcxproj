@@ -21,11 +21,8 @@
   <ItemGroup>
     <ClCompile Include="..\src\impl\fft_component.cpp" />
     <ClCompile Include="..\src\impl\input_capture.cpp" />
-<<<<<<< HEAD
-=======
     <ClCompile Include="..\src\impl\sound_convolution.cpp" />
     <ClCompile Include="..\src\impl\sound_convolution_impl.cpp" />
->>>>>>> 97d775f (プロジェクト更新)
     <ClCompile Include="..\src\impl\window_functions.cpp" />
     <ClCompile Include="..\src\impl\world_cheaptrick_sp.cpp" />
     <ClCompile Include="..\src\impl\world_d4c_ap.cpp" />
@@ -35,17 +32,7 @@
   <ItemGroup>
     <ClInclude Include="..\src\define_macro.hpp" />
     <ClInclude Include="..\src\fft_component.hpp" />
-<<<<<<< HEAD
     <ClInclude Include="..\src\fft_exception.hpp" />
-=======
-    <ClInclude Include="..\src\impl\fft_component_impl.hpp" />
-    <ClInclude Include="..\src\impl\input_capture_impl.hpp" />
-    <ClInclude Include="..\src\impl\sound_convolution_impl.hpp" />
-    <ClInclude Include="..\src\impl\world_cheaptrick_sp_impl.hpp" />
-    <ClInclude Include="..\src\impl\world_d4c_ap_impl.hpp" />
-    <ClInclude Include="..\src\impl\world_harvest_f0_impl.hpp" />
-    <ClInclude Include="..\src\impl\world_synthesis_impl.hpp" />
->>>>>>> 97d775f (プロジェクト更新)
     <ClInclude Include="..\src\input_capture.hpp" />
     <ClInclude Include="..\src\lib_audio_analysis.h" />
     <ClInclude Include="..\src\sound_convolution.hpp" />
