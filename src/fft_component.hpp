@@ -1,20 +1,27 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <memory>
-#include "impl/fft_component_impl.hpp"
 #include "define_macro.hpp"
+#include "fft_exception.hpp"
 
 namespace audio_analysis_lib
 {
-	//前方宣言
-	using namespace my_world_voice_feature;
-	class fft_component_impl;
+	namespace my_world_voice_feature
+	{
+		// 前方宣言
+		class fft_component_impl;
+	}
+	// fft関数の動作モード
+	enum class fft_mode : int
+	{
+		FFT = 0,
+		IFFT = 1,
+		ERROR = -1
+	};
 
 	class fft_component
 	{
 	public:
-		using fft_mode = my_world_voice_feature::fft_component_impl::fft_mode;
-		using fft_exception = my_world_voice_feature::fft_component_impl::fft_exception;
 
 		fft_component(int fft_size);
 
@@ -32,13 +39,14 @@ namespace audio_analysis_lib
 		std::unique_ptr<my_world_voice_feature::fft_component_impl> pImpl;
 	};
 
+
 	DLLEXPORT void create_fft_component(int init_fft_size, void** func_object);
 
-	DLLEXPORT fft_component::fft_exception mylib_fft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
+	DLLEXPORT fft_exception mylib_fft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
 
-	DLLEXPORT fft_component::fft_exception mylib_ifft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
+	DLLEXPORT fft_exception mylib_ifft(const float* input_re, const float* input_im, float* output_re, float* output_im, void* func_object);
 
-	DLLEXPORT fft_component::fft_exception fft_mode_setting(fft_component::fft_mode mode, void* func_object);
+	DLLEXPORT fft_exception fft_mode_setting(fft_mode mode, void* func_object);
 
 	DLLEXPORT int32_t get_fft_size(void* func_object);
 

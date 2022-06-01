@@ -1,16 +1,21 @@
-#pragma once
+﻿#pragma once
 #include <memory>
-#include "impl/world_harvest_f0_impl.hpp"
 #include "define_macro.hpp"
 
 namespace audio_analysis_lib
 {
-	class my_world_voice_feature::harvest_f0_impl;
+	// 前方宣言
+	namespace my_world_voice_feature
+	{
+		class harvest_f0_impl;
+	}
 
+	// f0推定
 	class harvest_f0
 	{
 	public:
 		harvest_f0(int init_fs, int init_frame_period);
+		~harvest_f0();
 		void f0_estimate(const double *x, int x_length, double *temporal_positions, double *f0);
 		int get_f0_sample_num(int x_length);
 	private:

@@ -18,13 +18,7 @@
     <ClCompile Include="..\src\impl\fft_component.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\impl\fft_component_impl.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\impl\input_capture.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\impl\input_capture_impl.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="..\src\impl\window_functions.cpp">
@@ -33,47 +27,17 @@
     <ClCompile Include="..\src\impl\world_cheaptrick_sp.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\impl\world_cheaptrick_sp_impl.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\impl\world_d4c_ap.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\impl\world_d4c_ap_impl.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="..\src\impl\world_harvest_f0.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\impl\world_harvest_f0_impl.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\impl\world_synthesis.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\impl\world_synthesis_impl.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\impl\fft_component_impl.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\impl\input_capture_impl.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\impl\world_cheaptrick_sp_impl.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\impl\world_d4c_ap_impl.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\impl\world_harvest_f0_impl.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\impl\world_synthesis_impl.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\define_macro.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -99,6 +63,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\src\world_synthesis.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\fft_exception.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

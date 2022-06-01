@@ -1,4 +1,5 @@
-#pragma once
+﻿#pragma once
+// ヘッダインクルード
 #include "fft_component.hpp"
 #include "window_functions.hpp"
 #include "world_harvest_f0.hpp"
