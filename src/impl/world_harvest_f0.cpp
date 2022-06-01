@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "world_harvest_f0.hpp"
 #include "world/harvest.h"
 
@@ -6,7 +6,7 @@ namespace audio_analysis_lib
 {
 	namespace my_world_voice_feature
 	{
-		// impl‚ÌéŒ¾AÀ‘•
+		// implã®å®£è¨€ã€å®Ÿè£…
 		class harvest_f0_impl
 		{
 		public:
@@ -37,7 +37,7 @@ namespace audio_analysis_lib
 		}
 	}
 
-	// harvest‚ÌÀ‘•
+	// harvestã®å®Ÿè£…
 	harvest_f0::harvest_f0(int fs, int frame_period)
 		:pimpl(std::make_unique<my_world_voice_feature::harvest_f0_impl>(fs, frame_period))
 	{ }
@@ -55,7 +55,7 @@ namespace audio_analysis_lib
 	}
 }
 
-// DLLŠÖ”À‘•
+// DLLé–¢æ•°å®Ÿè£…
 void audio_analysis_lib::create_harvest_f0(int fs, int frame_period, void** func_object)
 {
 	*func_object = new harvest_f0(fs, frame_period);

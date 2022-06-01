@@ -1,14 +1,16 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 #include "define_macro.hpp"
 
 namespace audio_analysis_lib
 {
+	// 前方宣言
 	namespace my_world_voice_feature
 	{
 		class world_synthesis_impl;
 	}
 
+	// 音声合成･変換
 	class world_synthesis
 	{
 	public:

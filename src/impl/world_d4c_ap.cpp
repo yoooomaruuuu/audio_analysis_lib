@@ -1,11 +1,11 @@
-#include "world_d4c_ap.hpp"
+ï»¿#include "world_d4c_ap.hpp"
 #include "world/d4c.h"
 
 namespace audio_analysis_lib
 {
 	namespace my_world_voice_feature
 	{
-		// impl‚ÌéŒ¾AÀ‘•
+		// implã®å®£è¨€ã€å®Ÿè£…
 		class d4c_ap_impl
 		{
 		public:
@@ -29,7 +29,7 @@ namespace audio_analysis_lib
 		}
 	}
 
-	// d4c‚ÌÀ‘•
+	// d4cã®å®Ÿè£…
 	d4c_ap::d4c_ap(int init_fs)
 		: pimpl(std::make_unique<my_world_voice_feature::d4c_ap_impl>(init_fs))
 	{ }

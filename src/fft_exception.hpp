@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 namespace audio_analysis_lib
 {
-	// fft_component‚É‚¨‚¯‚é•Ô‚è’l
+	// fft_componentã«ãŠã‘ã‚‹è¿”ã‚Šå€¤
 	enum class fft_exception : int
 	{
 		SUCCESS = 0,

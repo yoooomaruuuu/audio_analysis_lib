@@ -9,6 +9,7 @@ namespace audio_analysis_lib
 		class cheaptrick_sp_impl;
 	}
 
+	// sp推定
 	class cheaptrick_sp
 	{
 	public:

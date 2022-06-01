@@ -1,14 +1,15 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 
 namespace audio_analysis_lib
 {
-	// �O���錾
+	// 前方宣言
 	namespace my_world_voice_feature
 	{
 		class d4c_ap_impl;
 	}
 	
+	// ap推定
 	class d4c_ap
 	{
 	public:

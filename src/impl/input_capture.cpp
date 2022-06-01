@@ -1,8 +1,8 @@
-#ifdef _WIN32
+ï»¿#ifdef _WIN32
 #include "input_capture.hpp"
 #include <thread>
 
-// TODO: VS‘¤‚ÅƒŠƒ“ƒJw’è‰Â”\‚Å‚Í?
+// TODO: VSå´ã§ãƒªãƒ³ã‚«æŒ‡å®šå¯èƒ½ã§ã¯?
 #pragma comment(lib, "dsound.lib")
 #pragma comment(lib, "dxguid.lib")
 
@@ -15,7 +15,7 @@ namespace audio_analysis_lib
 
 		BOOL CALLBACK DSEnumProc(LPGUID lpGUID, LPCTSTR lpszDesc, LPCTSTR lpszDrvName, LPVOID lpContext);
 
-		// impléŒ¾‚ÆÀ‘•
+		// implå®£è¨€ã¨å®Ÿè£…
 		class input_capture_impl
 		{
 		public:
@@ -39,28 +39,28 @@ namespace audio_analysis_lib
 
 		private:
 			DEVICE_MAP devices;
-			LPDIRECTSOUNDCAPTURE m_capture_device;//DirectSoundCaptureDeviceƒIƒuƒWƒFƒNƒg
-			LPDIRECTSOUNDCAPTUREBUFFER m_capture_buffer;//DirectSoundCaptureBufferƒIƒuƒWƒFƒNƒg
+			LPDIRECTSOUNDCAPTURE m_capture_device;//DirectSoundCaptureDeviceã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+			LPDIRECTSOUNDCAPTUREBUFFER m_capture_buffer;//DirectSoundCaptureBufferã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 
 			WAVEFORMATEX m_wfx;
-			// ’Pƒ‚ÈPCM‚ÌWAVEƒf[ƒ^‚ğ’è‹`
-			// wFormatTagAWave‚ÌƒtƒH[ƒ}ƒbƒg
-			// nChannels@ƒ‚ƒmƒ‰ƒ‹1@ƒXƒeƒŒƒI2iƒf[ƒ^ƒZƒbƒg‚Ìí—Şj
-			// nSamplesPerSec@1•b‚ ‚½‚è‚ÌƒTƒ“ƒvƒ‹”
-			// mAvgBytesPerSecA1•b‚ ‚½‚è‚ÌƒoƒCƒg”BnSamplesPerSec–nBlockAlignB
-			// nBlockAlign 1ƒTƒ“ƒvƒ‹‚ÌƒoƒCƒg”BnChannels~wBitsPerSample€8@8EEE8ƒrƒbƒg=‚PƒoƒCƒg
-			// wBitsPerSample@1ƒTƒ“ƒvƒ‹‚ ‚½‚è‚Ìƒrƒbƒg”B8‚©16
-			// cbSize@í‚É0
+			// å˜ç´”ãªPCMã®WAVEãƒ‡ãƒ¼ã‚¿ã‚’å®šç¾©
+			// wFormatTagã€Waveã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
+			// nChannelsã€€ãƒ¢ãƒãƒ©ãƒ«1ã€€ã‚¹ãƒ†ãƒ¬ã‚ª2ï¼ˆãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆã®ç¨®é¡ï¼‰
+			// nSamplesPerSecã€€1ç§’ã‚ãŸã‚Šã®ã‚µãƒ³ãƒ—ãƒ«æ•°
+			// mAvgBytesPerSecã€1ç§’ã‚ãŸã‚Šã®ãƒã‚¤ãƒˆæ•°ã€‚nSamplesPerSecï¼ŠnBlockAlignã€‚
+			// nBlockAlign 1ã‚µãƒ³ãƒ—ãƒ«ã®ãƒã‚¤ãƒˆæ•°ã€‚nChannelsÃ—wBitsPerSampleÃ·8ã€€8ãƒ»ãƒ»ãƒ»8ãƒ“ãƒƒãƒˆ=ï¼‘ãƒã‚¤ãƒˆ
+			// wBitsPerSampleã€€1ã‚µãƒ³ãƒ—ãƒ«ã‚ãŸã‚Šã®ãƒ“ãƒƒãƒˆæ•°ã€‚8ã‹16
+			// cbSizeã€€å¸¸ã«0
 
 			DSCBUFFERDESC m_buffer_describer;
-			// DirectSound Capture Buffer DESC ƒLƒƒƒvƒ`ƒƒ ƒoƒbƒtƒ@‚ğ‹Lq‚·‚é\‘¢‘Ì
-			// dwSize ‚±‚Ì\‘¢‘Ì‚ÌƒTƒCƒY(=sizeof(DSCBUFFERDESC))
-			// dwFlags ƒfƒoƒCƒX•t‰Á”\—Í‚Ìw’èƒtƒ‰ƒOi–¢g—p‚É‚Â‚«0j
-			// dwBufferBytes ƒoƒbƒtƒ@ƒTƒCƒY(byte)
-			// dwReserved —\–ñ—Ìˆæ(=0)
-			// lpwfxFormat ƒLƒƒƒvƒ`ƒƒƒtƒH[ƒ}ƒbƒg‚ğWAVEFORMATX\‘¢‘Ì‚Åw’è
-			// dwFXCount ƒGƒtƒFƒNƒg‚ğg—p‚µ‚È‚¢ê‡‚Í0
-			// lpDSCFXDesc ƒn[ƒhƒEƒFƒAƒTƒ|[ƒg‚ÌƒGƒtƒFƒNƒgw’è
+			// DirectSound Capture Buffer DESC ã‚­ãƒ£ãƒ—ãƒãƒ£ ãƒãƒƒãƒ•ã‚¡ã‚’è¨˜è¿°ã™ã‚‹æ§‹é€ ä½“
+			// dwSize ã“ã®æ§‹é€ ä½“ã®ã‚µã‚¤ã‚º(=sizeof(DSCBUFFERDESC))
+			// dwFlags ãƒ‡ãƒã‚¤ã‚¹ä»˜åŠ èƒ½åŠ›ã®æŒ‡å®šãƒ•ãƒ©ã‚°ï¼ˆæœªä½¿ç”¨ã«ã¤ã0ï¼‰
+			// dwBufferBytes ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º(byte)
+			// dwReserved äºˆç´„é ˜åŸŸ(=0)
+			// lpwfxFormat ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’WAVEFORMATXæ§‹é€ ä½“ã§æŒ‡å®š
+			// dwFXCount ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ä½¿ç”¨ã—ãªã„å ´åˆã¯0
+			// lpDSCFXDesc ãƒãƒ¼ãƒ‰ã‚¦ã‚§ã‚¢ã‚µãƒãƒ¼ãƒˆã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆæŒ‡å®š
 
 			DWORD m_readable_pos, m_captured_pos, m_read_buffer_pos, m_lock_length, m_captured_length, m_wrapped_captured_length;
 			DWORD m_copied_length;
@@ -124,13 +124,13 @@ namespace audio_analysis_lib
 
 		int input_capture_impl::get_input_devices_list_size()
 		{
-			// ƒTƒEƒ“ƒhƒfƒoƒCƒX‚ª•¡”‚ ‚éê‡‚Ég—p
+			// ã‚µã‚¦ãƒ³ãƒ‰ãƒ‡ãƒã‚¤ã‚¹ãŒè¤‡æ•°ã‚ã‚‹å ´åˆã«ä½¿ç”¨
 			return devices.second.size();
 		}
 
 		std::vector<std::wstring> input_capture_impl::get_input_devices_list()
 		{
-			// ƒTƒEƒ“ƒhƒfƒoƒCƒX‚ª•¡”‚ ‚éê‡‚Ég—p
+			// ã‚µã‚¦ãƒ³ãƒ‰ãƒ‡ãƒã‚¤ã‚¹ãŒè¤‡æ•°ã‚ã‚‹å ´åˆã«ä½¿ç”¨
 			return devices.second;
 		}
 
@@ -145,17 +145,17 @@ namespace audio_analysis_lib
 		{
 			m_capture_buffer->GetCurrentPosition(&m_captured_pos, &m_readable_pos);
 			if (m_readable_pos > m_read_buffer_pos) m_lock_length = m_readable_pos - m_read_buffer_pos;
-			// readable_pos‚Æread_buffer_pos‚ªˆê’v‚µ‚Ä‚¢‚é‚Æ‚«‚Í‘å‚«‚­‚Æ‚Á‚Ä‚µ‚Ü‚¤‚½‚ßAØ‚Á‚Ä’u‚­
+			// readable_posã¨read_buffer_posãŒä¸€è‡´ã—ã¦ã„ã‚‹ã¨ãã¯å¤§ããã¨ã£ã¦ã—ã¾ã†ãŸã‚ã€åˆ‡ã£ã¦ç½®ã
 			else if (m_readable_pos == m_read_buffer_pos) return E_FAIL;
 			else m_lock_length = m_buffer_describer.dwBufferBytes - m_read_buffer_pos + m_readable_pos;
-			////æ“¾‚Å‚«‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ªget_buf_size‚æ‚è¬‚³‚¢ê‡Aerror
+			////å–å¾—ã§ããŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºãŒget_buf_sizeã‚ˆã‚Šå°ã•ã„å ´åˆã€error
 			//if (m_lock_length < get_buf_size()) return E_FAIL;
 			//m_lock_length = get_buf_size();
 
 			printf("Lock startRead:%d, readable:%d, locklen:%d, captured:%d\n",
 				m_read_buffer_pos, m_readable_pos, m_lock_length, m_captured_pos);
-			////ƒLƒƒƒvƒ`ƒƒƒoƒbƒtƒ@‚Íringbuffer‚È‚½‚ßA—Ìˆæ‚ª2‚Â‚É•ª’f‚³‚ê‚é‚±‚Æ‚ª‚ ‚é
-			////‚»‚Ì‚½‚ßAwappedCaputreData‚à—pˆÓ‚µ‚ÄA2‚Â‚ğ‘‚«o‚µ‚Ä‚¢‚é
+			////ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ã¯ringbufferãªãŸã‚ã€é ˜åŸŸãŒ2ã¤ã«åˆ†æ–­ã•ã‚Œã‚‹ã“ã¨ãŒã‚ã‚‹
+			////ãã®ãŸã‚ã€wappedCaputreDataã‚‚ç”¨æ„ã—ã¦ã€2ã¤ã‚’æ›¸ãå‡ºã—ã¦ã„ã‚‹
 			m_hr = m_capture_buffer->Lock(m_read_buffer_pos, m_lock_length, &m_captured_data, &m_captured_length, &m_wrapped_captured_data, &m_wrapped_captured_length, NULL);
 			if (m_hr != DS_OK) {
 				printf("Lock error:%x\n", m_hr);
@@ -198,7 +198,7 @@ namespace audio_analysis_lib
 		}
 	}
 
-	// input_captureÀ‘•
+	// input_captureå®Ÿè£…
 	input_capture::input_capture()
 	:ptr(std::make_unique<my_direct_sound::input_capture_impl>())
 	{
@@ -244,7 +244,7 @@ namespace audio_analysis_lib
 	}
 }
 
-// DLLŠÖ”À‘•
+// DLLé–¢æ•°å®Ÿè£…
 DLLEXPORT void audio_analysis_lib::create_input_capture(void** func_object)
 {
 	*func_object = new audio_analysis_lib::input_capture();

@@ -1,4 +1,4 @@
-#include "world_synthesis.hpp"
+ï»¿#include "world_synthesis.hpp"
 #include "world/synthesisrealtime.h"
 #include "world_harvest_f0.hpp"
 #include "world_cheaptrick_sp.hpp"
@@ -8,7 +8,7 @@ namespace audio_analysis_lib
 {
     namespace my_world_voice_feature
     {
-		// ‡¬‚É—p‚¢‚éƒpƒ‰ƒ[ƒ^
+		// åˆæˆæ™‚ã«ç”¨ã„ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 		typedef struct {
 		  double frame_period;
 		  int fs;
@@ -22,7 +22,7 @@ namespace audio_analysis_lib
 		  int fft_size;
 		} world_parameters;
 
-		// impl‚ÌéŒ¾AÀ‘•
+		// implã®å®£è¨€ã€å®Ÿè£…
 		class world_synthesis_impl
 		{
 		public:
@@ -128,7 +128,7 @@ namespace audio_analysis_lib
 			}
 		}
     }
-	// world_synthesis‚ÌÀ‘•
+	// world_synthesisã®å®Ÿè£…
 	world_synthesis::world_synthesis(int init_fs, float init_frame_period, int init_input_length)
 		: pimpl(std::make_unique<my_world_voice_feature::world_synthesis_impl>(init_fs, init_frame_period, init_input_length))
 	{
@@ -144,7 +144,7 @@ namespace audio_analysis_lib
 }
 
 
-// DLLŠÖ”À‘•
+// DLLé–¢æ•°å®Ÿè£…
 void audio_analysis_lib::create_world_synthesis(int init_fs, int init_frame_period, int init_input_length, void** func_object)
 {
 	*func_object = new world_synthesis(init_fs, init_frame_period, init_input_length);

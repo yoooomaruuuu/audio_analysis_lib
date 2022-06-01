@@ -1,4 +1,4 @@
-#ifdef _WIN32
+﻿#ifdef _WIN32
 #include <memory>
 #include "define_macro.hpp"
 #include <iostream>
