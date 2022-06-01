@@ -1,11 +1,23 @@
 #ifdef _WIN32
 #include <memory>
 #include "define_macro.hpp"
-#include "impl/input_capture_impl.hpp"
+#include <iostream>
+#include <string.h>
+#include <locale>
+#include <codecvt>
+#include <dsound.h>
+#include <time.h>
+#include <windows.h>
+#include <time.h>
+#include <vector>
+#include <map>
 
 namespace audio_analysis_lib
 {
-	class my_direct_sound::input_capture_impl;
+	namespace my_direct_sound
+	{
+		class input_capture_impl;
+	}
 
 	class input_capture
 	{
