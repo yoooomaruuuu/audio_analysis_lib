@@ -19,7 +19,7 @@ namespace audio_analysis_lib
 			float *m_s1_input_re, *m_s1_input_im, *m_s2_input_re, *m_s2_input_im;
 			float *m_s1_output_re, *m_s1_output_im, *m_s2_output_re, *m_s2_output_im;
 			float *m_conv_output;
-			std::unique_ptr<fft_component> _fft;
+			fft_component _fft;
 		};
 
 		sound_convolution_impl::sound_convolution_impl(int init_frame_size)
@@ -34,7 +34,7 @@ namespace audio_analysis_lib
 			 m_s2_output_re((float*)malloc(sizeof(float) * m_fft_size)),
 			 m_s2_output_im((float*)malloc(sizeof(float) * m_fft_size)),
 			 m_conv_output((float*)malloc(sizeof(float) * m_fft_size)),
-		 	 _fft(std::make_unique<fft_component>(m_fft_size))
+		 	 _fft(m_fft_size)
 		{
 		}
 
