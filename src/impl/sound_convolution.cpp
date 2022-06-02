@@ -40,7 +40,15 @@ namespace audio_analysis_lib
 
 		sound_convolution_impl::~sound_convolution_impl()
 		{
-
+			free(m_s1_input_re);
+			free(m_s1_input_im);
+			free(m_s2_input_re);
+			free(m_s2_input_im);
+			free(m_s1_output_re);
+			free(m_s1_output_im);
+			free(m_s2_output_re);
+			free(m_s2_output_im);
+			free(m_conv_output);
 		}
 
 		float* sound_convolution_impl::frame_convolution(const float* src1, const float* src2)
