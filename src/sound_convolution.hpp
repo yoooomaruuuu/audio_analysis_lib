@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <memory>
 
@@ -18,7 +18,8 @@ namespace audio_analysis_lib
 	public:
 		sound_convolution(int init_frame_size);
 		~sound_convolution();
-		float* frame_convolution(const float* src1, const float* src2);
+		void set_conv_filter(const float* filter);
+		float& frame_freq_convolution(const float* tar);
 
 	private:
 		std::unique_ptr<my_signal_processing::sound_convolution_impl> pImpl;
