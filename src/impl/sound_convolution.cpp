@@ -108,8 +108,8 @@ namespace audio_analysis_lib
 			return *m_conv_output;
 		}
 	}
-	sound_convolution::sound_convolution(int init_frame_size)
-		: pImpl(std::make_unique<my_signal_processing::sound_convolution_impl>(init_frame_size))
+	sound_convolution::sound_convolution(uint16_t init_frame_size, uint16_t init_filter_tap)
+		: pImpl(std::make_unique<my_signal_processing::sound_convolution_impl>(init_frame_size, init_filter_tap))
 	{
 	}
 
