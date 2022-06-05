@@ -33,6 +33,7 @@
     <ClInclude Include="..\src\fft_exception.hpp" />
     <ClInclude Include="..\src\input_capture.hpp" />
     <ClInclude Include="..\src\lib_audio_analysis.h" />
+    <ClInclude Include="..\src\util_func.hpp" />
     <ClInclude Include="..\src\window_functions.hpp" />
     <ClInclude Include="..\src\world_cheaptrick_sp.hpp" />
     <ClInclude Include="..\src\world_d4c_ap.hpp" />
