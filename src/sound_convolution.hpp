@@ -16,7 +16,7 @@ namespace audio_analysis_lib
 	class sound_convolution
 	{
 	public:
-		sound_convolution(uint16_t init_frame_size, uint16_t init_filter_tap);
+		sound_convolution(uint32_t init_frame_size, uint32_t init_filter_tap);
 		~sound_convolution();
 		void set_conv_filter(const float* filter);
 		void frame_freq_convolution(const float* tar, float* out);

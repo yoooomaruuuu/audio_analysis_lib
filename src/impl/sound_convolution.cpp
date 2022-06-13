@@ -13,14 +13,14 @@ namespace audio_analysis_lib
 		class sound_convolution_impl
 		{
 		public:
-			sound_convolution_impl(uint16_t init_frame_size, uint16_t init_filter_tap);
+			sound_convolution_impl(uint32_t init_frame_size, uint32_t init_filter_tap);
 			~sound_convolution_impl();
 			void set_conv_filter(const float* filter);
 			void frame_freq_convolution(const float* tar, float* out);
 
 		private:
-			int m_frame_size;
-			int m_filter_tap;
+			uint32_t m_frame_size;
+			uint32_t m_filter_tap;
 			fft_component _fft;
 			int m_fft_size;
 			float* m_filter_factor;
@@ -34,7 +34,7 @@ namespace audio_analysis_lib
 		};
 
 		// frame_size + filter_tap - 1について2のべき乗である制約
-		sound_convolution_impl::sound_convolution_impl(uint16_t init_frame_size, uint16_t init_filter_tap)
+		sound_convolution_impl::sound_convolution_impl(uint32_t init_frame_size, uint32_t init_filter_tap)
 			:m_frame_size(init_frame_size), m_filter_tap(init_filter_tap),
 			 _fft(init_frame_size + init_filter_tap - 1),
 			 m_fft_size(_fft.get_fft_size()),
@@ -111,7 +111,7 @@ namespace audio_analysis_lib
 			std::memcpy(m_pre_tar, m_ifft_output_re + m_frame_size, m_filter_tap - 1);
 		}
 	}
-	sound_convolution::sound_convolution(uint16_t init_frame_size, uint16_t init_filter_tap)
+	sound_convolution::sound_convolution(uint32_t init_frame_size, uint32_t init_filter_tap)
 		: pImpl(std::make_unique<my_signal_processing::sound_convolution_impl>(init_frame_size, init_filter_tap))
 	{
 	}
