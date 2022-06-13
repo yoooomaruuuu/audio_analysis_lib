@@ -99,7 +99,7 @@ namespace audio_analysis_lib
 			for (int i = 0; i < m_fft_size; i++)
 			{
 				m_ifft_input_re[i] = m_fft_output_re[i] * m_filter_freq_re[i];
-				m_ifft_input_im[i] = m_fft_input_im[i] * m_filter_freq_im[i];
+				m_ifft_input_im[i] = m_fft_output_im[i] * m_filter_freq_im[i];
 			}
 			_fft.fft_mode_setting(audio_analysis_lib::fft_mode::IFFT);
 			_fft.ifft(m_ifft_input_re, m_ifft_input_im, m_ifft_output_re, m_ifft_output_im);
