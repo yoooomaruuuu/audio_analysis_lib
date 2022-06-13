@@ -19,7 +19,7 @@ namespace audio_analysis_lib
 		sound_convolution(uint16_t init_frame_size, uint16_t init_filter_tap);
 		~sound_convolution();
 		void set_conv_filter(const float* filter);
-		float& frame_freq_convolution(const float* tar);
+		void frame_freq_convolution(const float* tar, float* out);
 
 	private:
 		std::unique_ptr<my_signal_processing::sound_convolution_impl> pImpl;

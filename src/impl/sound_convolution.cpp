@@ -16,7 +16,7 @@ namespace audio_analysis_lib
 			sound_convolution_impl(uint16_t init_frame_size, uint16_t init_filter_tap);
 			~sound_convolution_impl();
 			void set_conv_filter(const float* filter);
-			float& frame_freq_convolution(const float* tar);
+			void frame_freq_convolution(const float* tar, float* out);
 
 		private:
 			int m_frame_size;
@@ -91,7 +91,7 @@ namespace audio_analysis_lib
 			_fft.fft(m_filter_factor, in_im, m_filter_freq_re, m_filter_freq_im);
 		}
 
-		float& sound_convolution_impl::frame_freq_convolution(const float* tar)
+		void sound_convolution_impl::frame_freq_convolution(const float* tar, float* out)
 		{
 			std::memcpy(m_fft_input_re, tar, m_frame_size);
 			_fft.fft_mode_setting(audio_analysis_lib::fft_mode::FFT);
@@ -103,13 +103,12 @@ namespace audio_analysis_lib
 			}
 			_fft.fft_mode_setting(audio_analysis_lib::fft_mode::IFFT);
 			_fft.ifft(m_ifft_input_re, m_ifft_input_im, m_ifft_output_re, m_ifft_output_im);
-			std::memcpy(m_conv_output, m_ifft_output_re, m_frame_size);
+			std::memcpy(out, m_ifft_output_re, m_frame_size);
 			for (int i = 0; i < m_filter_tap - 1; i++)
 			{
-				m_conv_output[i] += m_pre_tar[i];
+				out[i] += m_pre_tar[i];
 			}
 			std::memcpy(m_pre_tar, m_ifft_output_re + m_frame_size, m_filter_tap - 1);
-			return *m_conv_output;
 		}
 	}
 	sound_convolution::sound_convolution(uint16_t init_frame_size, uint16_t init_filter_tap)
@@ -124,8 +123,8 @@ namespace audio_analysis_lib
 		pImpl->set_conv_filter(filter);
 	}
 
-	float& sound_convolution::frame_freq_convolution(const float* tar)
+	void sound_convolution::frame_freq_convolution(const float* tar, float* out)
 	{
-		return pImpl->frame_freq_convolution(tar);
+		pImpl->frame_freq_convolution(tar, out);
 	}
 }
