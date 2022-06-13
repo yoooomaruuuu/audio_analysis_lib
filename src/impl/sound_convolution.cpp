@@ -49,8 +49,7 @@ namespace audio_analysis_lib
 			 m_ifft_input_im((float*)malloc(sizeof(float) * m_fft_size)),
 			 m_ifft_output_re((float*)malloc(sizeof(float) * m_fft_size)),
 			 m_ifft_output_im((float*)malloc(sizeof(float) * m_fft_size)),
-			 m_pre_tar((float*)malloc(sizeof(float) * (init_filter_tap - 1))),
-			 m_conv_output((float*)malloc(sizeof(float) * init_frame_size))
+			 m_pre_tar((float*)malloc(sizeof(float) * (init_filter_tap - 1)))
 		{
 			std::memset(m_fft_input_re, 0.0f, m_fft_size);
 			std::memset(m_fft_input_im, 0.0f, m_fft_size);
@@ -64,7 +63,6 @@ namespace audio_analysis_lib
 			std::memset(m_filter_freq_re, 0.0f, m_fft_size);
 			std::memset(m_filter_freq_im, 0.0f, m_fft_size);
 			std::memset(m_pre_tar, 0.0f, init_filter_tap-1);
-			std::memset(m_conv_output, 0.0f, init_frame_size);
 		}
 
 		sound_convolution_impl::~sound_convolution_impl()
@@ -73,8 +71,14 @@ namespace audio_analysis_lib
 			free(m_fft_input_im);
 			free(m_fft_output_re);
 			free(m_fft_output_im);
+			free(m_ifft_input_re);
+			free(m_ifft_input_im);
+			free(m_ifft_output_re);
+			free(m_ifft_output_im);
+			free(m_filter_factor);
+			free(m_filter_freq_re);
+			free(m_filter_freq_im);
 			free(m_pre_tar);
-			free(m_conv_output);
 		}
 
 		// 畳み込みに用いるフィルタの設定
