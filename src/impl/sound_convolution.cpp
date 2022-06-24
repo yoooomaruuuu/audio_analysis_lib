@@ -95,15 +95,14 @@ namespace audio_analysis_lib
 		{
 			std::memcpy(m_fft_input_re, tar, m_frame_size * sizeof(float));
 			_fft.fft_mode_setting(audio_analysis_lib::fft_mode::FFT);
-			_fft.fft(m_fft_input_re, m_fft_input_im, m_fft_output_re, m_fft_output_im);
 			for (int i = 0; i < m_fft_size; i++)
+			fft_exception ex = _fft.fft(m_fft_input_re, m_fft_input_im, m_fft_output_re, m_fft_output_im);
 			{
 				m_ifft_input_re[i] = m_fft_output_re[i] * m_filter_freq_re[i];
 				m_ifft_input_im[i] = m_fft_output_im[i] * m_filter_freq_im[i];
 			}
 			_fft.fft_mode_setting(audio_analysis_lib::fft_mode::IFFT);
-			_fft.ifft(m_ifft_input_re, m_ifft_input_im, m_ifft_output_re, m_ifft_output_im);
-			std::memcpy(out, m_ifft_output_re, m_frame_size);
+			ex = _fft.ifft(m_ifft_input_re, m_ifft_input_im, m_ifft_output_re, m_ifft_output_im);
 			std::memcpy(out, m_ifft_output_re, m_frame_size * sizeof(float));
 			for (int i = 0; i < m_filter_tap - 1; i++)
 			{
