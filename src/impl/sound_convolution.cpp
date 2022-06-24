@@ -51,18 +51,18 @@ namespace audio_analysis_lib
 			 m_ifft_output_im((float*)malloc(sizeof(float) * m_fft_size)),
 			 m_pre_tar((float*)malloc(sizeof(float) * (init_filter_tap - 1)))
 		{
-			std::memset(m_fft_input_re, 0.0f, m_fft_size);
-			std::memset(m_fft_input_im, 0.0f, m_fft_size);
-			std::memset(m_fft_output_re, 0.0f, m_fft_size);
-			std::memset(m_fft_output_im, 0.0f, m_fft_size);
-			std::memset(m_ifft_input_re, 0.0f, m_fft_size);
-			std::memset(m_ifft_input_im, 0.0f, m_fft_size);
-			std::memset(m_ifft_output_re, 0.0f, m_fft_size);
-			std::memset(m_ifft_output_im, 0.0f, m_fft_size);
-			std::memset(m_filter_factor, 0.0f, m_fft_size);
-			std::memset(m_filter_freq_re, 0.0f, m_fft_size);
-			std::memset(m_filter_freq_im, 0.0f, m_fft_size);
-			std::memset(m_pre_tar, 0.0f, init_filter_tap-1);
+			std::memset(m_fft_input_re, 0.0f, m_fft_size * sizeof(float));
+			std::memset(m_fft_input_im, 0.0f, m_fft_size * sizeof(float));
+			std::memset(m_fft_output_re, 0.0f, m_fft_size * sizeof(float));
+			std::memset(m_fft_output_im, 0.0f, m_fft_size * sizeof(float));
+			std::memset(m_ifft_input_re, 0.0f, m_fft_size * sizeof(float));
+			std::memset(m_ifft_input_im, 0.0f, m_fft_size * sizeof(float));
+			std::memset(m_ifft_output_re, 0.0f, m_fft_size * sizeof(float));
+			std::memset(m_ifft_output_im, 0.0f, m_fft_size * sizeof(float));
+			std::memset(m_filter_factor, 0.0f, m_fft_size * sizeof(float));
+			std::memset(m_filter_freq_re, 0.0f, m_fft_size * sizeof(float));
+			std::memset(m_filter_freq_im, 0.0f, m_fft_size * sizeof(float));
+			std::memset(m_pre_tar, 0.0f, (init_filter_tap-1) * sizeof(float));
 		}
 
 		sound_convolution_impl::~sound_convolution_impl()
@@ -84,16 +84,16 @@ namespace audio_analysis_lib
 		// 畳み込みに用いるフィルタの設定
 		void sound_convolution_impl::set_conv_filter(const float* filter)
 		{
-			std::memcpy(m_filter_factor, filter, m_filter_tap);
+			std::memcpy(m_filter_factor, filter, m_filter_tap * sizeof(float));
 			_fft.fft_mode_setting(audio_analysis_lib::fft_mode::FFT);
 			float* in_im = ((float*)malloc(sizeof(float) * m_fft_size));
-			std::memset(in_im, 0.0f, m_fft_size);
+			std::memset(in_im, 0.0f, m_fft_size * sizeof(float));
 			_fft.fft(m_filter_factor, in_im, m_filter_freq_re, m_filter_freq_im);
 		}
 
 		void sound_convolution_impl::frame_freq_convolution(const float* tar, float* out)
 		{
-			std::memcpy(m_fft_input_re, tar, m_frame_size);
+			std::memcpy(m_fft_input_re, tar, m_frame_size * sizeof(float));
 			_fft.fft_mode_setting(audio_analysis_lib::fft_mode::FFT);
 			_fft.fft(m_fft_input_re, m_fft_input_im, m_fft_output_re, m_fft_output_im);
 			for (int i = 0; i < m_fft_size; i++)
@@ -104,11 +104,12 @@ namespace audio_analysis_lib
 			_fft.fft_mode_setting(audio_analysis_lib::fft_mode::IFFT);
 			_fft.ifft(m_ifft_input_re, m_ifft_input_im, m_ifft_output_re, m_ifft_output_im);
 			std::memcpy(out, m_ifft_output_re, m_frame_size);
+			std::memcpy(out, m_ifft_output_re, m_frame_size * sizeof(float));
 			for (int i = 0; i < m_filter_tap - 1; i++)
 			{
 				out[i] += m_pre_tar[i];
 			}
-			std::memcpy(m_pre_tar, m_ifft_output_re + m_frame_size, m_filter_tap - 1);
+			std::memcpy(m_pre_tar, m_ifft_output_re + m_frame_size, (m_filter_tap - 1) * sizeof(float));
 		}
 	}
 	sound_convolution::sound_convolution(uint32_t init_frame_size, uint32_t init_filter_tap)
